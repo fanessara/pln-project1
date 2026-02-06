@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>PLN DIV STI SUMUT</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  
+  <link href="assets/css/main.css" rel="stylesheet">
+
+ 
+</head>
+
+<body class="about-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      
+    <a href="index.html" class="logo d-flex align-items-center gap-2">
+    <img
+    src="https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_PLN.png"
+    alt="Logo PLN"
+    class="logo-pln"
+    />
+      <span class="sitename">DIV STI OPS SUMUT</span>
+    </a>
+
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Beranda<br></a></li>
+          <li><a href="about.html" class="active">Layanan User Office 365</a></li>
+          <li><a href="services.html">Layanan PLN Icon+ </a></li>
+          <li><a href="#">Statistik Laporan Layanan Icon+</a></li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/about-page-title-bg.jpg);">
+      <div class="container">
+        <h1>Layanan User Office 365</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Beranda</a></li>
+            <li class="current">Layanan User Office 365</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    
+
+    <section id="laporan" class="laporan-section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Monitoring Laporan</h2>
+      <p>Pencarian dan pengelolaan laporan layanan operasional</p>
+    </div>
+
+    
+    <div class="card laporan-card mb-4">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-8">
+          <input type="text" class="form-control form-control-lg"
+                 placeholder="Masukkan nomor laporan...">
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+          <button class="btn btn-outline-primary w-100">
+            Cari Laporan
+          </button>
+          <button class="btn btn-primary w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalLaporan">
+             + Tambah Laporan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+    <div class="card laporan-card">
+      <div class="empty-state">
+        <h5>Data tidak ditemukan</h5>
+        <p>Silakan cari laporan atau tambahkan laporan baru</p>
+      </div>
+
+      <!-- Contoh jika data ADA -->
+      <!-- 
+      <div class="row">
+        <div class="col-md-4">
+          <div class="report-item">
+            <span class="badge bg-primary mb-2">Office 365</span>
+            <h6>Laporan #PLN-2025-001</h6>
+            <small>Status: Diproses</small>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+
+  </div>
+</section>
+
+<div class="modal fade" id="modalLaporan" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 modal-pln-form">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Tambah Laporan</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <p class="text-muted mb-3" id="modalSubtitle">
+          Pilih jenis laporan
+        </p>
+
+        
+        <div class="d-grid gap-3" id="laporanMenu">
+          <button class="btn btn-outline-primary rounded-3 py-2"
+        data-bs-toggle="modal"
+        data-bs-target="#modalOffice365"
+        data-bs-dismiss="modal">
+  Lisensi Office 365
+</button>
+
+
+          <button class="btn btn-outline-primary rounded-3 py-2"
+                  id="btnSimcardAPN">
+            SIM Card APN
+          </button>
+
+          <button class="btn btn-outline-primary rounded-3 py-2">
+            Layanan Network
+          </button>
+        </div>
+
+        
+        <div class="d-grid gap-3 d-none" id="simcardMenu">
+          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="Telkomsel">
+            Telkomsel
+          </button>
+
+          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="XL">
+            XL
+          </button>
+
+          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="Indosat">
+            Indosat
+          </button>
+
+          <button class="btn btn-light mt-2"
+                  id="btnBackToMenu">
+            ← Kembali
+          </button>
+        </div>
+<div class="d-none" id="simcardForm">
+  <h6 class="fw-semibold mb-3">
+    Data SIM Card APN - <span id="providerTitle"></span>
+  </h6>
+
+  <div class="simcard-card">
+    <div class="row g-2">
+      <div class="col-6">
+        <label class="form-label">Kuantitas Dari Lisensi</label>
+        <input type="text" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">AMR</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="col-6">
+        <label class="form-label">SCADA</label>
+        <input type="text" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">SPKLU</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="col-6">
+        <label class="form-label">Tgl/Bln/Thn</label>
+        <input type="date" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">No. BA</label>
+        <input type="text" class="form-control" />
+      </div>
+    </div>
+
+    <div class="mt-3 text-center">
+      <button class="btn btn-outline-secondary btn-sm">
+        Upload file PDF
+      </button>
+    </div>
+
+    <div class="text-center mt-3">
+      <button class="btn btn-primary px-4">Submit</button>
+    </div>
+  </div>
+
+  <button class="btn btn-light rounded-3 w-100 mt-3" id="btnBackToProvider">
+    ← Kembali
+  </button>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-none" id="simcardForm">
+  <h6 class="fw-semibold mb-3">
+    Data SIM Card APN - <span id="providerTitle"></span>
+  </h6>
+
+  <div class="simcard-card">
+    <div class="row g-2">
+      <div class="col-6">
+        <label class="form-label">Kuantitas Dari Lisensi</label>
+        <input type="text" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">AMR</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="col-6">
+        <label class="form-label">SCADA</label>
+        <input type="text" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">SPKLU</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="col-6">
+        <label class="form-label">Tgl/Bln/Thn</label>
+        <input type="date" class="form-control" />
+      </div>
+      <div class="col-6">
+        <label class="form-label">No. BA</label>
+        <input type="text" class="form-control" />
+      </div>
+    </div>
+
+    <div class="mt-3 text-center">
+      <button class="btn btn-outline-secondary btn-sm">
+        Upload file PDF
+      </button>
+    </div>
+
+    <div class="text-center mt-3">
+      <button class="btn btn-primary px-4">Submit</button>
+    </div>
+  </div>
+
+  <button class="btn btn-light rounded-3 w-100 mt-3" id="btnBackToProvider">
+    ← Kembali
+  </button>
+</div>
+
+        <div class="modal fade" id="modalOffice365" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4 modal-pln-form">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-semibold">
+          Data Lisensi Office 365
+        </h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body px-4">
+
+        <p class="text-muted mb-3">Kuantitas dari Lisensi</p>
+
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4">E1</div>
+          <div class="col-md-8">
+            <input type="number" class="form-control form-pln">
+          </div>
+
+          <div class="col-md-4">E3</div>
+          <div class="col-md-8">
+            <input type="number" class="form-control form-pln">
+          </div>
+
+          <div class="col-md-4">E5</div>
+          <div class="col-md-8">
+            <input type="number" class="form-control form-pln">
+          </div>
+
+          <div class="col-md-4">CoreCALBridge</div>
+          <div class="col-md-8">
+            <input type="number" class="form-control form-pln">
+          </div>
+
+          <div class="col-md-4">Tgl/Bln/Thn</div>
+          <div class="col-md-8">
+            <input type="date" class="form-control form-pln">
+          </div>
+
+          <div class="col-md-4">No. BA</div>
+          <div class="col-md-8">
+            <input type="text" class="form-control form-pln">
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <label class="upload-box">
+            <input type="file" hidden>
+            ⬆ Upload file PDF
+          </label>
+        </div>
+
+        <div class="text-center mt-4">
+          <button class="btn btn-pln px-5 rounded-pill">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+   
+  <footer id="footer" class="footer light-background">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-about">
+            <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_PLN.png"
+            alt="PLN"
+            class="logo-img"
+          />
+          <span class="sitename">DIV STI OPS SUMUT</span>
+        </a>
+
+            <p>Menjalankan peran strategis dalam memastikan keandalan sistem teknologi informasi guna mendukung kelancaran operasional dan pelayanan ketenagalistrikan di Sumatera Utara.</p>
+            <div class="social-links d-flex mt-4">
+              <a href=""><i class="bi bi-twitter-x"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="#">Beranda</a></li>
+              <li><a href="#">Layanan User Office 365</a></li>
+              <li><a href="#">Layanan PLN Icon+</a></li>
+            </ul>
+          </div>
+   
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Layanan Kami</h4>
+            <ul>
+              <li><a href="#">IPVPN</a></li>
+              <li><a href="#">METRONET</a></li>
+              <li><a href="#">CLEAR CHANNEL</a></li>
+              <li><a href="#">VSAT IP</a></li>
+              <li><a href="#">INTERNET VSAT</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Kotak Kami</h4>
+            <p>-</p>
+          
+            <p class="mt-4"><strong>Phone:</strong> <span>-</span></p>
+            <p><strong>Email:</strong> <span>-</span></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    </div>
+
+  </footer>
+
+  
+
+
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  
+  <div id="preloader"></div>
+
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/lisensi.js"></script>
+  <script src="assets/js/simcard.js"></script>
+
+
+</body>
+
+</html>
