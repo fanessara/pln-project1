@@ -1,16 +1,3 @@
-/**
-* Template Name: Nova
-* Template URL: https://bootstrapmade.com/nova-bootstrap-business-template/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-/*--------------------------------------------------------------
-# Font & Color Variables
-# Help: https://bootstrapmade.com/color-system/
---------------------------------------------------------------*/
-/* Fonts */
 :root {
   --default-font:
     "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
@@ -20,32 +7,23 @@
   --nav-font: "Raleway", sans-serif;
 }
 
-/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root {
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #2b180d; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #1b2f45; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #56b8e6; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  --background-color: #ffffff;
+  --default-color: #2b180d;
+  --heading-color: #1b2f45;
+  --accent-color: #56b8e6;
+  --surface-color: #ffffff;
+  --contrast-color: #ffffff;
 }
 
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: rgba(
-    255,
-    255,
-    255,
-    0.6
-  ); /* The default color of the main navmenu links */
-  --nav-hover-color: #ffffff; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #56b8e6; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: rgba(255, 255, 255, 0.6);
+  --nav-hover-color: #ffffff;
+  --nav-mobile-background-color: #ffffff;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #212529;
+  --nav-dropdown-hover-color: #56b8e6;
 }
-
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
 .light-background {
   --background-color: #f6fcfe;
@@ -65,9 +43,6 @@
   scroll-behavior: smooth;
 }
 
-/*--------------------------------------------------------------
-# General Styling & Shared Classes
---------------------------------------------------------------*/
 body {
   color: var(--default-color);
   background-color: var(--background-color);
@@ -95,8 +70,6 @@ h6 {
   font-family: var(--heading-font);
 }
 
-/* PHP Email Form Messages
-------------------------------*/
 .php-email-form .error-message {
   display: none;
   background: #df1529;
@@ -2782,4 +2755,322 @@ logo:hover .sitename {
 .search-card-pln .btn-outline-primary:hover {
   background-color: #0072ce;
   color: #fff;
+}
+
+.modal-pln {
+  background: #f4f6f9;
+}
+
+.modal-pln .modal-content {
+  background: #e6e6e6;
+}
+
+.modal-pln .form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.modal-pln input,
+.modal-pln select {
+  border-radius: 10px;
+}
+
+.upload-box {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px dashed #0d6efd;
+  color: #0d6efd;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.upload-box:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+
+/* ===============================
+   MODAL OFFICE 365
+=============================== */
+.o365-modal {
+  border-radius: 16px;
+  border: none;
+}
+
+.o365-modal .modal-header {
+  border-bottom: 1px solid #eef2f6;
+  background: linear-gradient(90deg, #0a3d62, #0d6efd);
+  color: #fff;
+}
+
+.o365-modal .modal-title {
+  font-weight: 600;
+}
+
+.o365-modal .modal-body {
+  background: #f8fbff;
+}
+
+.o365-modal .form-label {
+  font-weight: 500;
+  color: #1f2d3d;
+}
+
+/* Divider */
+.section-divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.section-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.section-divider span {
+  background: #f8fbff;
+  padding: 0 12px;
+  font-weight: 600;
+  color: #0d6efd;
+}
+
+/* Total */
+.total-box {
+  background: #eaf2ff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-box strong {
+  font-size: 1.25rem;
+  color: #0d6efd;
+}
+
+/* Upload */
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.upload-box:hover {
+  border-color: #0d6efd;
+  background: #f0f6ff;
+}
+
+.upload-box i {
+  font-size: 28px;
+  color: #0d6efd;
+}
+
+.upload-box .file-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #0a58ca;
+}
+
+.form-select option[disabled] {
+  color: #9aa5b1;
+}
+
+/* =======================
+   FONT & GLOBAL FORM
+======================= */
+.modal-pln {
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+.modal-pln .form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+.modal-pln input,
+.modal-pln select {
+  font-size: 13px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-pln input:focus,
+.modal-pln select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+/* =======================
+   SECTION TITLE (DATA LISENSI)
+======================= */
+.section-title {
+  margin: 28px 0 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #0d6efd;
+  position: relative;
+}
+
+.section-title::before,
+.section-title::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.section-title::before {
+  left: 0;
+}
+
+.section-title::after {
+  right: 0;
+}
+
+/* =======================
+   SELECT UNIT (CUSTOM)
+======================= */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+/* Arrow */
+.select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #64748b;
+}
+
+/* Placeholder color */
+select option[value=""] {
+  color: #94a3b8;
+}
+
+/* =======================
+   UPLOAD BOX
+======================= */
+.upload-box {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px dashed #0d6efd;
+  color: #0d6efd;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.upload-box:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.pln-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2d3d;
+}
+
+.pln-input {
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+}
+
+.pln-input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+}
+
+.section-divider {
+  margin: 32px 0 16px;
+  padding-bottom: 6px;
+  font-weight: 700;
+  color: #0d6efd;
+  border-bottom: 1px solid #e5eaf1;
+  letter-spacing: 0.5px;
+}
+
+.input-group-text {
+  border-radius: 12px 0 0 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input[type="file"].pln-input {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.provider-section {
+  position: relative;
+  margin: 32px 0 20px;
+}
+
+.provider-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: #e2e8f0;
+  z-index: 1;
+}
+
+.provider-title {
+  display: inline-block;
+  background: #f4f6f9;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #0d6efd;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2;
 }

@@ -44,25 +44,24 @@
     />
       <span class="sitename">DIV STI OPS SUMUT</span>
     </a>
-
-
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html">Beranda<br></a></li>
-          <li><a href="about.html" class="active">Layanan User Office 365</a></li>
+           <li class="dropdown"><a href="about.html"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+                <ul>
+                  <li><a href="simcardapn.html">SimCard APN</a></li>
+                  <li><a href="#">Layanan Network</a></li>
+                </ul>
+           </lii>
           <li><a href="services.html">Layanan PLN Icon+ </a></li>
-          <li><a href="#">Statistik Laporan Layanan Icon+</a></li>
-          
+          <li><a href="portfolio.html">Statistik Laporan Icon+</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
     </div>
   </header>
 
-  <main class="main">
-
-    
+  <main class="main">   
     <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/about-page-title-bg.jpg);">
       <div class="container">
         <h1>Layanan User Office 365</h1>
@@ -74,18 +73,13 @@
         </nav>
       </div>
     </div>
-
-    
-
     <section id="laporan" class="laporan-section">
   <div class="container">
-
     <div class="section-title">
       <h2>Monitoring Laporan</h2>
       <p>Pencarian dan pengelolaan laporan layanan operasional</p>
     </div>
-
-    
+   
     <div class="card laporan-card mb-4">
       <div class="row g-3 align-items-center">
         <div class="col-md-8">
@@ -103,15 +97,12 @@
           </button>
         </div>
       </div>
-    </div>
-
-    
+    </div>   
     <div class="card laporan-card">
       <div class="empty-state">
         <h5>Data tidak ditemukan</h5>
         <p>Silakan cari laporan atau tambahkan laporan baru</p>
       </div>
-
       <!-- Contoh jika data ADA -->
       <!-- 
       <div class="row">
@@ -125,233 +116,144 @@
       </div>
       -->
     </div>
-
   </div>
-</section>
 
-<div class="modal fade" id="modalLaporan" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 rounded-4 modal-pln-form">
+  <div class="modal fade" id="modalOffice365" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-pln">
 
-      <div class="modal-header">
-        <h5 class="modal-title fw-semibold">Tambah Laporan</h5>
+      <!-- HEADER -->
+      <div class="modal-header modal-header-pln">
+        <div>
+          <h5 class="modal-title">Data Lisensi Office 365</h5>
+          <small class="modal-subtitle">Input & pengelolaan lisensi Office 365</small>
+        </div>
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
+      <!-- BODY -->
       <div class="modal-body">
 
-        <p class="text-muted mb-3" id="modalSubtitle">
-          Pilih jenis laporan
-        </p>
+        <form id="formOffice365">
+          <div class="row g-4">
 
-        
-        <div class="d-grid gap-3" id="laporanMenu">
-          <button class="btn btn-outline-primary rounded-3 py-2"
-        data-bs-toggle="modal"
-        data-bs-target="#modalOffice365"
-        data-bs-dismiss="modal">
-  Lisensi Office 365
-</button>
-
-
-          <button class="btn btn-outline-primary rounded-3 py-2"
-                  id="btnSimcardAPN">
-            SIM Card APN
-          </button>
-
-          <button class="btn btn-outline-primary rounded-3 py-2">
-            Layanan Network
-          </button>
-        </div>
-
-        
-        <div class="d-grid gap-3 d-none" id="simcardMenu">
-          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="Telkomsel">
-            Telkomsel
-          </button>
-
-          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="XL">
-            XL
-          </button>
-
-          <button class="btn btn-outline-primary rounded-3 py-2 provider-btn" data-provider="Indosat">
-            Indosat
-          </button>
-
-          <button class="btn btn-light mt-2"
-                  id="btnBackToMenu">
-            ← Kembali
-          </button>
-        </div>
-<div class="d-none" id="simcardForm">
-  <h6 class="fw-semibold mb-3">
-    Data SIM Card APN - <span id="providerTitle"></span>
-  </h6>
-
-  <div class="simcard-card">
-    <div class="row g-2">
-      <div class="col-6">
-        <label class="form-label">Kuantitas Dari Lisensi</label>
-        <input type="text" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">AMR</label>
-        <input type="text" class="form-control" />
-      </div>
-
-      <div class="col-6">
-        <label class="form-label">SCADA</label>
-        <input type="text" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">SPKLU</label>
-        <input type="text" class="form-control" />
-      </div>
-
-      <div class="col-6">
-        <label class="form-label">Tgl/Bln/Thn</label>
-        <input type="date" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">No. BA</label>
-        <input type="text" class="form-control" />
-      </div>
-    </div>
-
-    <div class="mt-3 text-center">
-      <button class="btn btn-outline-secondary btn-sm">
-        Upload file PDF
-      </button>
-    </div>
-
-    <div class="text-center mt-3">
-      <button class="btn btn-primary px-4">Submit</button>
-    </div>
-  </div>
-
-  <button class="btn btn-light rounded-3 w-100 mt-3" id="btnBackToProvider">
-    ← Kembali
-  </button>
-</div>
-      </div>
-    </div>
+            <!-- PERIODE -->
+            <div class="col-md-6">
+  <label class="form-label-pln">Periode Bulan</label>
+  <div class="select-wrapper">
+    <select class="form-select form-select-sm">
+      <option value="" disabled selected>Silakan pilih bulan</option>
+      <option value="01">Januari</option>
+      <option value="02">Februari</option>
+      <option value="03">Maret</option>
+      <option value="04">April</option>
+      <option value="05">Mei</option>
+      <option value="06">Juni</option>
+      <option value="07">Juli</option>
+      <option value="08">Agustus</option>
+      <option value="09">September</option>
+      <option value="10">Oktober</option>
+      <option value="11">November</option>
+      <option value="12">Desember</option>
+    </select>
+    <span class="select-arrow"></span>
   </div>
 </div>
 
-<div class="d-none" id="simcardForm">
-  <h6 class="fw-semibold mb-3">
-    Data SIM Card APN - <span id="providerTitle"></span>
-  </h6>
 
-  <div class="simcard-card">
-    <div class="row g-2">
-      <div class="col-6">
-        <label class="form-label">Kuantitas Dari Lisensi</label>
-        <input type="text" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">AMR</label>
-        <input type="text" class="form-control" />
-      </div>
+            <div class="col-md-6">
+              <label class="form-label-pln">Tahun</label>
+              <input type="year" class="form-control input-pln" placeholder="2026">
+            </div>
 
-      <div class="col-6">
-        <label class="form-label">SCADA</label>
-        <input type="text" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">SPKLU</label>
-        <input type="text" class="form-control" />
-      </div>
+            <!-- BA -->
+            <div class="col-12">
+              <label class="form-label-pln">Nomor Berita Acara (BA)</label>
+              <input type="text" class="form-control input-pln">
+            </div>
 
-      <div class="col-6">
-        <label class="form-label">Tgl/Bln/Thn</label>
-        <input type="date" class="form-control" />
-      </div>
-      <div class="col-6">
-        <label class="form-label">No. BA</label>
-        <input type="text" class="form-control" />
-      </div>
-    </div>
+            <!-- TANGGAL -->
+            <div class="col-12">
+              <label class="form-label-pln">Tanggal BA</label>
+              <input type="date" class="form-control input-pln">
+            </div>
 
-    <div class="mt-3 text-center">
-      <button class="btn btn-outline-secondary btn-sm">
-        Upload file PDF
-      </button>
-    </div>
+            
 
-    <div class="text-center mt-3">
-      <button class="btn btn-primary px-4">Submit</button>
-    </div>
+            <!-- LISENSI -->
+            <div class="col-md-6">
+              <label class="form-label-pln">E1</label>
+              <input type="number" class="form-control input-pln">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label-pln">E3</label>
+              <input type="number" class="form-control input-pln">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label-pln">E5</label>
+              <input type="number" class="form-control input-pln">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label-pln">Core CAL Bridge</label>
+              <input type="number" class="form-control input-pln">
+            </div>
+
+            <!-- UNIT -->
+          <div class="col-12">
+  <label class="form-label-pln">Unit</label>
+  <div class="select-wrapper">
+    <select class="form-select form-select-sm">
+      <option value="" disabled selected>Silakan pilih unit</option>
+      <option>UID SUMUT</option>
+      <option>UIP SUMBAGUT</option>
+    </select>
+    <span class="select-arrow"></span>
   </div>
-
-  <button class="btn btn-light rounded-3 w-100 mt-3" id="btnBackToProvider">
-    ← Kembali
-  </button>
 </div>
 
-        <div class="modal fade" id="modalOffice365" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0 rounded-4 modal-pln-form">
 
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-semibold">
-          Data Lisensi Office 365
-        </h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
 
-      <div class="modal-body px-4">
+            <!-- TOTAL -->
+            <div class="col-12">
+              <div class="total-box">
+                <span>Total Tagihan</span>
+                <strong id="totalTagihan">Rp 0</strong>
+              </div>
+            </div>
 
-        <p class="text-muted mb-3">Kuantitas dari Lisensi</p>
+            <!-- UPLOAD -->
+            <div class="col-12 text-center">
+              <label class="upload-box">
+                <input type="file" hidden accept=".pdf">
+                <i class="bi bi-upload"></i>
+                <div>Upload BA (PDF)</div>
+                <small>Maks. 5MB</small>
+              </label>
+            </div>
 
-        <div class="row g-3 align-items-center">
-          <div class="col-md-4">E1</div>
-          <div class="col-md-8">
-            <input type="number" class="form-control form-pln">
+            <!-- SUBMIT -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary w-100 btn-submit-pln">
+                Simpan Data Lisensi
+              </button>
+            </div>
+
           </div>
+        </form>
 
-          <div class="col-md-4">E3</div>
-          <div class="col-md-8">
-            <input type="number" class="form-control form-pln">
-          </div>
-
-          <div class="col-md-4">E5</div>
-          <div class="col-md-8">
-            <input type="number" class="form-control form-pln">
-          </div>
-
-          <div class="col-md-4">CoreCALBridge</div>
-          <div class="col-md-8">
-            <input type="number" class="form-control form-pln">
-          </div>
-
-          <div class="col-md-4">Tgl/Bln/Thn</div>
-          <div class="col-md-8">
-            <input type="date" class="form-control form-pln">
-          </div>
-
-          <div class="col-md-4">No.BA</div>
-          <div class="col-md-8">
-            <input type="text" class="form-control form-pln">
-          </div>
-        </div>
-
-        <div class="mt-4 text-center">
-          <label class="upload-box">
-            <input type="file" hidden>
-            ⬆ Upload file PDF
-          </label>
-        </div>
-
-        <div class="text-center mt-4">
-          <button class="btn btn-pln px-5 rounded-pill">
-            Submit
-          </button>
-        </div>
       </div>
     </div>
   </div>
 </div>
+
+  
+  
+</section>
+
+
 
    
   <footer id="footer" class="footer light-background">
@@ -430,8 +332,7 @@
   
   <script src="assets/js/main.js"></script>
   <script src="assets/js/lisensi.js"></script>
-  <script src="assets/js/simcard.js"></script>
-
+  
 
 </body>
 

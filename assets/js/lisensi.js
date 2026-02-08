@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const btnOffice = document.getElementById("btnOffice365");
-  const modalOfficeEl = document.getElementById("modalOffice365");
+  const btnTambah = document.querySelector('[data-bs-target="#modalLaporan"]');
+  const modalOffice = new bootstrap.Modal(
+    document.getElementById("modalOffice365"),
+  );
 
-  if (btnOffice && modalOfficeEl) {
-    btnOffice.addEventListener("click", function () {
-      const modalOffice = new bootstrap.Modal(modalOfficeEl);
-      modalOffice.show();
-    });
-  }
+  btnTambah.addEventListener("click", function (e) {
+    e.preventDefault();
+    modalOffice.show();
+  });
 });
