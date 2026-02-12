@@ -3074,3 +3074,85 @@ input[type="file"].pln-input {
   position: relative;
   z-index: 2;
 }
+/* ===============================
+   STATISTIK LAPORAN
+================================= */
+
+.statistik-container {
+    padding: 40px 60px;
+    background: #f4f7fb;
+    min-height: 100vh;
+}
+
+/* Title */
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0b2e59;
+    margin-bottom: 35px;
+}
+
+/* ===============================
+   KPI CARDS
+================================= */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.kpi-card {
+    background: linear-gradient(135deg, #005bea, #003f8a);
+    color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.kpi-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.kpi-card p {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Different Colors */
+.kpi-card.success {
+    background: linear-gradient(135deg, #00c853, #009624);
+}
+
+.kpi-card.warning {
+    background: linear-gradient(135deg, #f9a825, #f57f17);
+}
+
+.kpi-card.danger {
+    background: linear-gradient(135deg, #e53935, #b71c1c);
+}
+
+/* ===============================
+   CHART SECTION
+================================= */
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.chart-card
