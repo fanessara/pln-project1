@@ -1,3 +1,14 @@
+<!--Statistik Laporan Icon-->
+
+<?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,11 +57,12 @@
        
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html">Beranda<br></a></li>
-          <li><a href="about.html">Layanan User Office 365</a></li>
-          <li><a href="services.html">Layanan PLN Icon+</a></li>
-          <li><a href="portfolio.html" class="active">Statistik Laporan Icon+</a></li>
-      
+          <li><a href="index.php">Beranda<br></a></li>
+          <li><a href="about.php">Layanan User Office 365</a></li>
+          <li><a href="services.php">Layanan PLN Icon+</a></li>
+          <li><a href="portfolio.php" class="active">Statistik Laporan Icon+</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 

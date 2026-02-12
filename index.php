@@ -1,3 +1,31 @@
+<!--Halaman beranda-->
+
+<?php
+session_start();
+include "service/database.php";
+
+$login_message = "";
+
+if (isset($_POST['login'])) {
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+    $_SESSION['login'] = true;
+    $_SESSION['username'] = $username;
+    header("Location: index.php");
+    exit();
+    } else {
+        $login_message = "Akun tidak ditemukan";
+    }
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -58,16 +86,19 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li>
-              <a href="index.html" class="active">Beranda<br /></a>
+              <a href="index.php" class="active">Beranda<br /></a>
             </li>
-              <li class="dropdown"><a href="about.html"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+            <?php if (isset($_SESSION['login'])): ?>
+              <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">SimCard APN</a></li>
                   <li><a href="#">Layanan Network</a></li>
                 </ul>
-            <li><a href="services.html">Layanan PLN Icon+</a></li>
-            <li><a href="portfolio.html">Statistik Laporan Icon+</a></li> 
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            <li><a href="services.php">Layanan PLN Icon+</a></li>
+            <li><a href="portfolio.php">Statistik Laporan Icon+</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <?php endif; ?>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
       </div>
     </header>
@@ -103,18 +134,19 @@
 
             <h2 class="login-title">Masuk</h2>
 
-            <form>
+            <form id="loginForm">
+            <i id="errorMessage" style="color:red;"></i>
               <div class="input-group">
-                <input type="text" required />
+                <input type="text" required name="username" />
                 <label>Username</label>
               </div>
 
               <div class="input-group">
-                <input type="password" required />
+                <input type="password" required name="password" />
                 <label>Password</label>
               </div>
 
-              <button type="submit" class="login-btn">Login</button>
+              <button type="submit" class="login-btn" name="login" >Login</button>
             </form>
           </div>
         </div>
@@ -429,5 +461,29 @@
     
     <script src="assets/js/main.js"></script>
     <script src="assets/js/login.js"></script>
+
+    <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault(); // MENCEGAH REFRESH
+
+      let formData = new FormData(this);
+
+      fetch("login_process.php", {
+        method: "POST",
+        body: formData
+    })
+      .then(response => response.text())
+      .then(data => {
+        if(data.trim() === "success"){
+            window.location.href = "about.php";
+        } else {
+            document.getElementById("errorMessage").innerText = "Akun tidak ditemukan";
+        }
+    })
+      .catch(error => {
+        console.log(error);
+    });
+  });
+  </script>
   </body>
 </html>

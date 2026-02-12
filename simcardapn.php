@@ -1,3 +1,14 @@
+<!--Simcard APN-->
+
+<?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -54,16 +65,17 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li>
-              <a href="index.html">Beranda<br /></a>
+              <a href="index.php">Beranda<br /></a>
             </li>
-             <li class="dropdown"><a href="about.html"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+             <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
-                  <li><a href="simcardapn.html" class="active">SimCard APN</a></li>
+                  <li><a href="simcardapn.php" class="active">SimCard APN</a></li>
                   <li><a href="#">Layanan Network</a></li>
                 </ul>
-            <li><a href="services.html">Layanan PLN Icon+</a></li>
-            <li><a href="portfolio.html">Statistik Laporan Icon+</a></li>
-            
+            <li><a href="services.php">Layanan PLN Icon+</a></li>
+            <li><a href="portfolio.php">Statistik Laporan Icon+</a></li>
+            <li><a href="logout.php">Logout</a></li>
+          </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
       </div>
