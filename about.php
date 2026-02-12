@@ -1,13 +1,90 @@
 <!--Data Lisensi Official 365-->
 
 <?php
+
+include 'service/koneksi(office).php';
+
 session_start();
 
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit();
 }
+
+if (isset($_POST['submit'])) {
+
+    $bulan = $_POST['periode_bulan'];
+    $tahun = $_POST['tahun'];
+    $no_ba = $_POST['no_ba'];
+    $tanggal = $_POST['tanggal_ba'];
+    $e1 = $_POST['e1'];
+    $e3 = $_POST['e3'];
+    $e5 = $_POST['e5'];
+    $core_call_bridge = $_POST['core_cal_bridge'];
+    $unit = $_POST['unit'];
+
+    // ===============================
+    // VALIDASI FILE
+    // ===============================
+
+    if ($_FILES['upload_ba']['error'] == 0) {
+
+        $nama_file = $_FILES['upload_ba']['name'];
+        $tmp = $_FILES['upload_ba']['tmp_name'];
+        $size = $_FILES['upload_ba']['size'];
+
+        $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+
+        // cek ekstensi
+        if ($ext != "pdf") {
+            die("File harus PDF");
+        }
+
+        // cek ukuran max 5MB
+        if ($size > 5 * 1024 * 1024) {
+            die("Ukuran file maksimal 5MB");
+        }
+
+        // rename supaya tidak bentrok
+        $nama_baru = time() . "_" . $nama_file;
+
+        move_uploaded_file($tmp, "upload/" . $nama_baru);
+
+    } else {
+        echo "<script>alert('File wajib diupload'); window.history.back();</script>";
+        exit();
+    }
+
+    // ===============================
+    // INSERT DATABASE
+    // ===============================
+
+    $query = "INSERT INTO user 
+        (periode_bulan, tahun, no_ba, tanggal_ba, e1, e3, e5, core_cal_bridge, unit, upload_ba)
+        VALUES 
+        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$e1', '$e3', '$e5', '$core_call_bridge', '$unit', '$nama_baru')";
+
+    if (mysqli_query($conn, $query)) {
+
+        header("Location: ".$_SERVER['PHP_SELF']."?success=1");
+        exit();
+
+    } else {
+
+    // Tidak redirect, tidak popup
+    // Bisa log error kalau mau
+    }
+}
+
+
 ?>
+
+<?php if (isset($_GET['success'])): ?>
+<script>
+    alert('Data berhasil disimpan');
+    window.history.replaceState(null, null, window.location.pathname);
+</script>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -146,14 +223,14 @@ if (!isset($_SESSION['login'])) {
       
       <div class="modal-body">
 
-        <form id="formOffice365"> 
+        <form id="formOffice365" method="POST" enctype="multipart/form-data"> 
           <div class="row g-4">
 
             
             <div class="col-md-6">
   <label class="form-label-pln">Periode Bulan</label>
   <div class="select-wrapper">
-    <select class="form-select form-select-sm">
+    <select class="form-select form-select-sm" name="periode_bulan">
       <option value="" disabled selected>Silakan pilih bulan</option>
       <option value="01">Januari</option>
       <option value="02">Februari</option>
@@ -175,19 +252,19 @@ if (!isset($_SESSION['login'])) {
 
             <div class="col-md-6">
               <label class="form-label-pln">Tahun</label>
-              <input type="year" class="form-control input-pln" placeholder="2026">
+              <input type="year" class="form-control input-pln" placeholder="2026" name="tahun">
             </div>
 
             
             <div class="col-12">
               <label class="form-label-pln">Nomor Berita Acara (BA)</label>
-              <input type="text" class="form-control input-pln">
+              <input type="text" class="form-control input-pln" name="no_ba">
             </div>
 
             
             <div class="col-12">
               <label class="form-label-pln">Tanggal BA</label>
-              <input type="date" class="form-control input-pln">
+              <input type="date" class="form-control input-pln" name="tanggal_ba">
             </div>
 
             
@@ -195,29 +272,29 @@ if (!isset($_SESSION['login'])) {
             
             <div class="col-md-6">
               <label class="form-label-pln">E1</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" class="form-control input-pln" name="e1">
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">E3</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" class="form-control input-pln" name="e3">
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">E5</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" class="form-control input-pln" name="e5">
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">Core CAL Bridge</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" class="form-control input-pln" name="core_cal_bridge">
             </div>
 
             <!-- UNIT -->
           <div class="col-12">
   <label class="form-label-pln">Unit</label>
   <div class="select-wrapper">
-    <select class="form-select form-select-sm">
+    <select class="form-select form-select-sm" name="unit">
       <option value="" disabled selected>Silakan pilih unit</option>
       <option>UID SUMUT</option>
       <option>UIP SUMBAGUT</option>
@@ -239,7 +316,7 @@ if (!isset($_SESSION['login'])) {
             <!-- UPLOAD -->
             <div class="col-12 text-center">
               <label class="upload-box">
-                <input type="file" hidden accept=".pdf">
+                <input type="file" hidden accept=".pdf" name="upload_ba">
                 <i class="bi bi-upload"></i>
                 <div>Upload BA (PDF)</div>
                 <small>Maks. 5MB</small>
@@ -248,7 +325,7 @@ if (!isset($_SESSION['login'])) {
 
             <!-- SUBMIT -->
             <div class="col-12">
-              <button type="submit" class="btn btn-primary w-100 btn-submit-pln">
+              <button type="submit" class="btn btn-primary w-100 btn-submit-pln" name="submit">
                 Simpan Data Lisensi
               </button>
             </div>

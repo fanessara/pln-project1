@@ -1,13 +1,98 @@
 <!--Simcard APN-->
 
 <?php
+
+include "service/koneksi(card).php";
+
 session_start();
 
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit();
 }
+
+if (isset($_POST['submit'])) {
+
+    $bulan = $_POST['periode_bulan'];
+    $tahun = $_POST['tahun'];
+    $no_ba = $_POST['no_ba'];
+    $tanggal = $_POST['tanggal_ba'];
+    $amr_telkomsel = $_POST['amr_telkomsel'];
+    $scada_telkomsel = $_POST['scada_telkomsel'];
+    $spklu_telkomsel = $_POST['spklu_telkomsel'];
+    $total_telkomsel = $_POST['total_telkomsel'];
+    $amr_xl = $_POST['amr_xl'];
+    $scada_xl = $_POST['scada_xl'];
+    $spklu_xl = $_POST['spklu_xl'];
+    $total_xl = $_POST['total_xl'];
+    $amr_indosat = $_POST['amr_indosat'];
+    $scada_indosat = $_POST['scada_indosat'];
+    $spklu_indosat = $_POST['spklu_indosat'];
+    $total_indosat = $_POST['total_indosat'];
+    $nama_baru = $_POST['upload_ba'];
+
+    // ===============================
+    // VALIDASI FILE
+    // ===============================
+
+    if ($_FILES['upload_ba']['error'] == 0) {
+
+        $nama_file = $_FILES['upload_ba']['name'];
+        $tmp = $_FILES['upload_ba']['tmp_name'];
+        $size = $_FILES['upload_ba']['size'];
+
+        $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+
+        // cek ekstensi
+        if ($ext != "pdf") {
+            die("File harus PDF");
+        }
+
+        // cek ukuran max 5MB
+        if ($size > 5 * 1024 * 1024) {
+            die("Ukuran file maksimal 5MB");
+        }
+
+        // rename supaya tidak bentrok
+        $nama_baru = time() . "_" . $nama_file;
+
+        move_uploaded_file($tmp, "upload/" . $nama_baru);
+
+    } else {
+        echo "<script>alert('File wajib diupload'); window.history.back();</script>";
+        exit();
+    }
+
+    // ===============================
+    // INSERT DATABASE
+    // ===============================
+
+    $query = "INSERT INTO data 
+        (periode_bulan, tahun, no_ba, tanggal_ba, amr_telkomsel, scada_telkomsel, spklu_telkomsel, total_telkomsel,amr_xl, scada_xl, spklu_xl, total_xl, amr_indosat, scada_indosat, spklu_indosat, total_indosat, upload_ba)
+        VALUES 
+        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$amr_telkomsel', '$scada_telkomsel', '$spklu_telkomsel', '$total_telkomsel', '$amr_xl', '$scada_xl', '$spklu_xl', '$total_xl', '$amr_indosat', '$scada_indosat', '$spklu_indosat', '$total_indosat', '$nama_baru')";
+
+    if (mysqli_query($conn, $query)) {
+
+        header("Location: ".$_SERVER['PHP_SELF']."?success=1");
+        exit();
+
+    } else {
+
+    // Tidak redirect, tidak popup
+    // Bisa log error kalau mau
+    }
+}
+
+
 ?>
+
+<?php if (isset($_GET['success'])): ?>
+<script>
+    alert('Data berhasil disimpan');
+    window.history.replaceState(null, null, window.location.pathname);
+</script>
+<?php endif; ?>
 
 <!doctype html>
 <html lang="en">
@@ -159,41 +244,41 @@ if (!isset($_SESSION['login'])) {
       
       <div class="modal-body px-4">
 
-        
+        <form method="POST" enctype="multipart/form-data">
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Periode Bulan</label>
-            <select class="form-select pln-input">
+            <select class="form-select pln-input" name="periode_bulan">
               <option selected disabled>Pilih bulan</option>
-              <option>Januari</option>
-              <option>Februari</option>
-              <option>Maret</option>
-              <option>April</option>
-              <option>Mei</option>
-              <option>Juni</option>
-              <option>Juli</option>
-              <option>Agustus</option>
-              <option>September</option>
-              <option>Oktober</option>
-              <option>November</option>
-              <option>Desember</option>
+              <option value="1">Januari</option>
+              <option value="2">Februari</option>
+              <option value="3">Maret</option>
+              <option value="4">April</option>
+              <option value="5">Mei</option>
+              <option value="6">Juni</option>
+              <option value="7">Juli</option>
+              <option value="8">Agustus</option>
+              <option value="9">September</option>
+              <option value="10">Oktober</option>
+              <option value="11">November</option>
+              <option value="12">Desember</option>
             </select>
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Tahun</label>
-            <input type="number" class="form-control pln-input" value="2026">
+            <input type="number" class="form-control pln-input" value="2026" name="tahun">
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Nomor BA</label>
             <input type="text" class="form-control pln-input"
-                   placeholder="Nomor Berita Acara">
+                   placeholder="Nomor Berita Acara" name="no_ba">
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Tanggal BA</label>
-            <input type="date" class="form-control pln-input">
+            <input type="date" class="form-control pln-input" name="tanggal_ba">
           </div>
         </div>
 
@@ -209,15 +294,15 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="amr_telkomsel">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input"  name="scada_telkomsel">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="spklu_telkomsel">
           </div>
           
         </div>
@@ -229,7 +314,8 @@ if (!isset($_SESSION['login'])) {
       <input type="text"
              class="form-control pln-input text-end"
              placeholder="0"
-             inputmode="numeric">
+             inputmode="numeric"
+             name="total_telkomsel">
     </div>
   </div>
 
@@ -244,15 +330,15 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="amr_xl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="scada_xl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="spklu_xl">
           </div>
           
         </div>
@@ -264,7 +350,8 @@ if (!isset($_SESSION['login'])) {
       <input type="text"
              class="form-control pln-input text-end"
              placeholder="0"
-             inputmode="numeric">
+             inputmode="numeric"
+             name="total_xl">
     </div>
   </div>
 
@@ -279,15 +366,16 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3">
           <div class="col-md-3">
             <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="amr_indosat">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="scada_indosat">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input"
+            name="spklu_indosat">
           </div>
           
         </div>
@@ -301,27 +389,29 @@ if (!isset($_SESSION['login'])) {
       <input type="text"
              class="form-control pln-input text-end"
              placeholder="0"
-             inputmode="numeric">
+             inputmode="numeric"
+             name="total_indosat">
     </div>
   </div>
 
    <div class="col-12 text-center">
               <label class="upload-box">
-                <input type="file" hidden accept=".pdf">
+                <input type="file" hidden accept=".pdf" name="upload_ba">
                 <i class="bi bi-upload"></i>
                 <div>Upload BA (PDF)</div>
                 <small>Maks. 5MB</small>
               </label>
             </div>
 
-</div>
+  </div>
+
 
     
       <div class="modal-footer px-4 py-3">
         <button class="btn btn-light" data-bs-dismiss="modal">
           Batal
         </button>
-        <button class="btn btn-primary px-4">
+        <button type="submit" class="btn btn-primary px-4" name="submit">
           Simpan Laporan
         </button>
       </div>
@@ -329,6 +419,7 @@ if (!isset($_SESSION['login'])) {
     </div>
   </div>
 </div>
+</form>
 
 
     </main>
