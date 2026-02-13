@@ -1,8 +1,7 @@
 <!-- Layanan PLN iCON+ -->
 
 <?php
-
-include "service/koneksi(layananplnicon).php";
+include 'service/koneksi(office).php';
 
 session_start();
 
@@ -11,165 +10,170 @@ if (!isset($_SESSION['login'])) {
     exit();
 }
 
-  if (isset($_POST['submit'])) {
-    $periode_bulan = $_POST['periode_bulan'] ?? '';
-    $tahun = $_POST['tahun'] ?? '';
-    $no_ba = $_POST['no_ba'] ?? '';
-    $tanggal_ba = $_POST['tanggal_ba'] ?? '';
+/* =====================================================
+   PROSES SIMPAN DATA
+===================================================== */
+if (isset($_POST['submit'])) {
 
-    $internet_jl = $_POST['internet_jl'] ?? 0;
-    $internet_jt = $_POST['internet_jt'] ?? 0;
-    $internet_tdg = $_POST['internet_tdg'] ?? 0;
-    $internet_p_mttr = $_POST['internet_p_mttr'] ?? 0;
-    $internet_p_sla = $_POST['internet_p_sla'] ?? 0;
+    $periode_bulan = $_POST['periode_bulan'];
+    $tahun = $_POST['tahun'];
+    $no_ba = $_POST['no_ba'];
+    $tanggal_ba = $_POST['tanggal_ba'];
 
-    $ipvpn_jl = $_POST['ipvpn_jl'] ?? 0;
-    $ipvpn_jt = $_POST['ipvpn_jt'] ?? 0;
-    $ipvpn_tdg = $_POST['ipvpn_tdg'] ?? 0;
-    $ipvpn_p_mttr = $_POST['ipvpn_p_mttr'] ?? 0;
-    $ipvpn_p_sla = $_POST['ipvpn_p_sla'] ?? 0;
+    $internet_jl = $_POST['internet_jl'];
+    $internet_jt = $_POST['internet_jt'];
+    $internet_tdg = $_POST['internet_tdg'];
+    $internet_p_mttr = $_POST['internet_p_mttr'];
+    $internet_p_sla = $_POST['internet_p_sla'];
 
-    $metronet_jl = $_POST['metronet_jl'] ?? 0;
-    $metronet_jt = $_POST['metronet_jt'] ?? 0;
-    $metronet_tdg = $_POST['metronet_tdg'] ?? 0;
-    $metronet_p_mttr = $_POST['metronet_p_mttr'] ?? 0;
-    $metronet_p_sla = $_POST['metronet_p_sla'] ?? 0;
+    $ipvpn_jl = $_POST['ipvpn_jl'];
+    $ipvpn_jt = $_POST['ipvpn_jt'];
+    $ipvpn_tdg = $_POST['ipvpn_tdg'];
+    $ipvpn_p_mttr = $_POST['ipvpn_p_mttr'];
+    $ipvpn_p_sla = $_POST['ipvpn_p_sla'];
 
-    $clear_channel_jl = $_POST['clear_channel_jl'] ?? 0;
-    $clear_channel_jt = $_POST['clear_channel_jt'] ?? 0;
-    $clear_channel_tdg = $_POST['clear_channel_tdg'] ?? 0;
-    $clear_channel_p_mttr = $_POST['clear_channel_p_mttr'] ?? 0;
-    $clear_channel_p_sla = $_POST['clear_channel_p_sla'] ?? 0;
+    $metronet_jl = $_POST['metronet_jl'];
+    $metronet_jt = $_POST['metronet_jt'];
+    $metronet_tdg = $_POST['metronet_tdg'];
+    $metronet_p_mttr = $_POST['metronet_p_mttr'];
+    $metronet_p_sla = $_POST['metronet_p_sla'];
 
-    $vsat_ip_jl = $_POST['vsat_ip_jl'] ?? 0;
-    $vsat_ip_jt = $_POST['vsat_ip_jt'] ?? 0;
-    $vsat_ip_tdg = $_POST['vsat_ip_tdg'] ?? 0;
-    $vsat_ip_p_mttr = $_POST['vsat_ip_p_mttr'] ?? 0;
-    $vsat_ip_p_sla = $_POST['vsat_ip_p_sla'] ?? 0;
+    $clear_channel_jl = $_POST['clear_channel_jl'];
+    $clear_channel_jt = $_POST['clear_channel_jt'];
+    $clear_channel_tdg = $_POST['clear_channel_tdg'];
+    $clear_channel_p_mttr = $_POST['clear_channel_p_mttr'];
+    $clear_channel_p_sla = $_POST['clear_channel_p_sla'];
 
-    $internet_vsat_jl = $_POST['internet_vsat_jl'] ?? 0;
-    $internet_vsat_jt = $_POST['internet_vsat_jt'] ?? 0;
-    $internet_vsat_tdg = $_POST['internet_vsat_tdg'] ?? 0;
-    $internet_vsat_p_mttr = $_POST['internet_vsat_p_mttr'] ?? 0;
-    $internet_vsat_p_sla = $_POST['internet_vsat_p_sla'] ?? 0;
+    $vsat_ip_jl = $_POST['vsat_ip_jl'];
+    $vsat_ip_jt = $_POST['vsat_ip_jt'];
+    $vsat_ip_tdg = $_POST['vsat_ip_tdg'];
+    $vsat_ip_p_mttr = $_POST['vsat_ip_p_mttr'];
+    $vsat_ip_p_sla = $_POST['vsat_ip_p_sla'];
 
-    $core_jl = $_POST['core_jl'] ?? 0;
-    $core_jt = $_POST['core_jt'] ?? 0;
-    $core_tdg = $_POST['core_tdg'] ?? 0;
-    $core_p_mttr = $_POST['core_p_mttr'] ?? 0;
-    $core_p_sla = $_POST['core_p_sla'] ?? 0;
+    $internet_vsat_jl = $_POST['internet_vsat_jl'];
+    $internet_vsat_jt = $_POST['internet_vsat_jt'];
+    $internet_vsat_tdg = $_POST['internet_vsat_tdg'];
+    $internet_vsat_p_mttr = $_POST['internet_vsat_p_mttr'];
+    $internet_vsat_p_sla = $_POST['internet_vsat_p_sla'];
 
-    $sumut1_ns_jl = $_POST['sumut1_ns_jl'] ?? 0;
-    $sumut1_ns_jt = $_POST['sumut1_ns_jt'] ?? 0;
-    $sumut1_ns_tdg = $_POST['sumut1_ns_tdg'] ?? 0;
-    $sumut1_ns_p_mttr = $_POST['sumut1_ns_p_mttr'] ?? 0;
-    $sumut1_ns_p_sla = $_POST['sumut1_ns_p_sla'] ?? 0;
+    $core_jl = $_POST['core_jl'];
+    $core_jt = $_POST['core_jt'];
+    $core_tdg = $_POST['core_tdg'];
+    $core_p_mttr = $_POST['core_p_mttr'];
+    $core_p_sla = $_POST['core_p_sla'];
 
-    $sumut1_sn_jl = $_POST['sumut1_sn_jl'] ?? 0;
-    $sumut1_sn_jt = $_POST['sumut1_sn_jt'] ?? 0;
-    $sumut1_sn_tdg = $_POST['sumut1_sn_tdg'] ?? 0;
-    $sumut1_sn_p_mttr = $_POST['sumut1_sn_p_mttr'] ?? 0;
-    $sumut1_sn_p_sla = $_POST['sumut1_sn_p_sla'] ?? 0;
+    $sumut1_ns_jl = $_POST['sumut1_ns_jl'];
+    $sumut1_ns_jt = $_POST['sumut1_ns_jt'];
+    $sumut1_ns_tdg = $_POST['sumut1_ns_tdg'];
+    $sumut1_ns_p_mttr = $_POST['sumut1_ns_p_mttr'];
+    $sumut1_ns_p_sla = $_POST['sumut1_ns_p_sla'];
 
-    $sumut2_ns_jl = $_POST['sumut2_ns_jl'] ?? 0;
-    $sumut2_ns_jt = $_POST['sumut2_ns_jt'] ?? 0;
-    $sumut2_ns_tdg = $_POST['sumut2_ns_tdg'] ?? 0;
-    $sumut2_ns_p_mttr = $_POST['sumut2_ns_p_mttr'] ?? 0;
-    $sumut2_ns_p_sla = $_POST['sumut2_ns_p_sla'] ?? 0;
+    $sumut1_sn_jl = $_POST['sumut1_sn_jl'];
+    $sumut1_sn_jt = $_POST['sumut1_sn_jt'];
+    $sumut1_sn_tdg = $_POST['sumut1_sn_tdg'];
+    $sumut1_sn_p_mttr = $_POST['sumut1_sn_p_mttr'];
+    $sumut1_sn_p_sla = $_POST['sumut1_sn_p_sla'];
 
-    $sumut2_sn_jl = $_POST['sumut2_sn_jl'] ?? 0;
-    $sumut2_sn_jt = $_POST['sumut2_sn_jt'] ?? 0;
-    $sumut2_sn_tdg = $_POST['sumut2_sn_tdg'] ?? 0;
-    $sumut2_sn_p_mttr = $_POST['sumut2_sn_p_mttr'] ?? 0;
-    $sumut2_sn_p_sla = $_POST['sumut2_sn_p_sla'] ?? 0;
+    $sumut2_ns_jl = $_POST['sumut2_ns_jl'];
+    $sumut2_ns_jt = $_POST['sumut2_ns_jt'];
+    $sumut2_ns_tdg = $_POST['sumut2_ns_tdg'];
+    $sumut2_ns_p_mttr = $_POST['sumut2_ns_p_mttr'];
+    $sumut2_ns_p_sla = $_POST['sumut2_ns_p_sla'];
 
-    // $total_sti_sumut_ns_jl = $_POST['total_sti_sumut_ns_jl'];
-    // $total_sti_sumut_ns_jt = $_POST['total_sti_sumut_ns_jt'];
-    // $total_sti_sumut_ns_tdg = $_POST['total_sti_sumut_ns_tdg'];
-    // $total_sti_sumut_ns_p_mttr = $_POST['total_sti_sumut_ns_p_mttr'];
-    // $total_sti_sumut_ns_sla = $_POST['total_sti_sumut_ns_sla'];
-
-    // $total_sti_sumut_sn_jl = $_POST['total_sti_sumut_sn_jl'];
-    // $total_sti_sumut_sn_jt = $_POST['total_sti_sumut_sn_jt'];
-    // $total_sti_sumut_sn_tdg = $_POST['total_sti_sumut_sn_tdg'];
-    // $total_sti_sumut_sn_p_mttr = $_POST['total_sti_sumut_sn_p_mttr'];
-    // $total_sti_sumut_sn_p_sla = $_POST['total_sti_sumut_sn_p_sla'];
-
-    $nama_baru = $_FILES['upload_ba'];
-  
+    $sumut2_sn_jl = $_POST['sumut2_sn_jl'];
+    $sumut2_sn_jt = $_POST['sumut2_sn_jt'];
+    $sumut2_sn_tdg = $_POST['sumut2_sn_tdg'];
+    $sumut2_sn_p_mttr = $_POST['sumut2_sn_p_mttr'];
+    $sumut2_sn_p_sla = $_POST['sumut2_sn_p_sla'];
+    $nama_baru = $_POST['upload_ba'];
 
     // ===============================
     // VALIDASI FILE
     // ===============================
 
-$upload_ba = '';
+    if ($_FILES['upload_ba']['error'] === 0) {
 
-if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
+        $nama_file = $_FILES['upload_ba']['name'];
+        $tmp       = $_FILES['upload_ba']['tmp_name'];
+        $size      = $_FILES['upload_ba']['size'];
 
-    $nama_file = $_FILES['upload_ba']['name'];
-    $tmp       = $_FILES['upload_ba']['tmp_name'];
-    $size      = $_FILES['upload_ba']['size'];
+        $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
 
-    $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+        // Cek ekstensi
+        if ($ext !== "pdf") {
+            die("File harus PDF!");
+        }
 
-    if ($ext != "pdf") {
-        die("File harus PDF");
+        // Cek ukuran max 5MB
+        if ($size > 5 * 1024 * 1024) {
+            die("Ukuran file maksimal 5MB!");
+        }
+
+        // Rename file
+        $nama_baru = uniqid() . ".pdf";
+
+        // Path folder upload (lebih aman pakai __DIR__)
+        $folder = __DIR__ . "/upload/";
+
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        $upload_path = $folder . $nama_baru;
+
+        if (!move_uploaded_file($tmp, $upload_path)) {
+            die("Gagal upload file!");
+        }
+
+    } else {
+        echo "<script>alert('File wajib diupload!');window.history.back();</script>";
+        exit();
     }
-
-    if ($size > 5 * 1024 * 1024) {
-        die("Ukuran maksimal 5MB");
-    }
-
-    $folder = __DIR__ . "/upload_data/";
-
-    if (!is_dir($folder)) {
-        mkdir($folder, 0777, true);
-    }
-
-    $upload_ba = time() . "_" . $nama_file;
-
-    if (!move_uploaded_file($tmp, $folder . $upload_ba)) {
-        die("Gagal upload file");
-    }
-}
-
-
 
     // ===============================
     // INSERT DATABASE
     // ===============================
 
-    $query = "INSERT INTO data 
-        (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba)
-        
-        VALUES 
-        ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$upload_ba')";
-
-// total_sti_sumut_ns_jl, total_sti_sumut_ns_jt, total_sti_sumut_ns_tdg, total_sti_sumut_ns_p_mttr, total_sti_sumut_ns_sla, total_sti_sumut_sn_jl, total_sti_sumut_sn_jt, total_sti_sumut_sn_tdg, total_sti_sumut_sn_p_mttr, total_sti_sumut_sn_p_sla,
-
-//, '$total_sti_sumut_ns_jl', '$total_sti_sumut_ns_jt', '$total_sti_sumut_ns_tdg', '$total_sti_sumut_ns_p_mttr', '$total_sti_sumut_ns_sla', '$total_sti_sumut_sn_jl', '$total_sti_sumut_sn_jt', '$total_sti_sumut_sn_tdg', '$total_sti_sumut_sn_p_mttr', '$total_sti_sumut_sn_p_sla',
-
+    $query = "INSERT INTO user (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba VALUES 
+    ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$upload_ba')";
     if (mysqli_query($conn, $query)) {
-
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
-        exit(); 
-
+        exit();
     } else {
-
-    // Tidak redirect, tidak popup
-    // Bisa log error kalau mau
+        echo "Gagal menyimpan ke database: " . mysqli_error($conn);
     }
 }
 
+/* =====================================================
+   PROSES SEARCH DATA
+===================================================== */
+$resultData = null;
+$errorSearch = "";
 
+if (isset($_GET['cari'])) {
 
+    $search = trim($_GET['search_ba']);
 
+    if ($search == "") {
+        $errorSearch = "Nomor BA tidak boleh kosong!";
+    } else {
+
+        $search = mysqli_real_escape_string($conn, $search);
+
+        $queryData = "SELECT * FROM user 
+                      WHERE no_ba LIKE '%$search%' 
+                      ORDER BY id DESC";
+
+        $resultData = mysqli_query($conn, $queryData);
+    }
+}
 ?>
 
+<!-- ALERT SUCCESS -->
 <?php if (isset($_GET['success'])): ?>
 <script>
-    alert('Data berhasil disimpan');
-    window.history.replaceState(null, null, window.location.pathname);
+alert('Data berhasil disimpan!');
+window.history.replaceState(null, null, window.location.pathname);
 </script>
 <?php endif; ?>
 
@@ -193,7 +197,6 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-
     
     <link
       href="assets/vendor/bootstrap/css/bootstrap.min.css"
@@ -253,11 +256,11 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
         style="background-image: url(assets/img/services-page-title-bg.jpg)"
       >
         <div class="container">
-          <h1>Layanan PLN Icon+</h1>
+          <h1>Layanan SLA Icon+</h1>
           <nav class="breadcrumbs">
             <ol>
               <li><a href="index.html">Beranda</a></li>
-              <li class="current">Layanan PLN Icon+</li>
+              <li class="current">Layanan SLA Icon+</li>
             </ol>
           </nav>
         </div>
@@ -269,7 +272,7 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
     <div class="col-md-4">
       <input type="text" class="form-control form-control-lg"
              id="searchKeyword"
-             placeholder="Cari judul / nomor laporan...">
+             placeholder="Cari nomor BA...">
     </div>
 
     <div class="col-md-2">
@@ -310,7 +313,6 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
 <div class="modal fade" id="modalSLAIcon" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content border-0 rounded-4">
-
       
       <div class="modal-header px-4 py-3">
         <div>
@@ -323,11 +325,9 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-
     
       <div class="modal-body px-4">
-
-       
+      
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Periode Bulan</label>
@@ -687,6 +687,64 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
           </div>
         </div>      
 
+        <div class="provider-section">
+  <div class="provider-title">
+    TOTAL STI SUMUT
+  </div>
+</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <label class="form-label pln-label">Jumlah Layanan</label>
+            <input type="text" class="form-control pln-input" placeholder="NON SCADA">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label pln-label">Jumlah Tiket</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+           <div class="col-md-3">
+            <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+           <div class="col-md-3">
+            <label class="form-label pln-label">Pencapaian SLA (%)</label>
+            <input type="number" step="0.01"class="form-control pln-input">
+          </div>
+        </div>      
+
+        <div class="provider-section">
+  <div class="provider-title">
+    TOTAL STI SUMUT
+  </div>
+</div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <label class="form-label pln-label">Jumlah Layanan</label>
+            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label pln-label">Jumlah Tiket</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+           <div class="col-md-3">
+            <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
+            <input type="number" class="form-control pln-input">
+          </div>
+           <div class="col-md-3">
+            <label class="form-label pln-label">Pencapaian SLA (%)</label>
+            <input type="number" step="0.01"class="form-control pln-input">
+          </div>
+        </div>      
+
+
+
         <div class="col-12 text-center">
               <label class="upload-box">
                 <input type="file" hidden accept=".pdf" name="upload_ba">
@@ -735,10 +793,11 @@ if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
             <div class="col-lg-2 col-6 footer-links">
               <h4>Tautan Link</h4>
               <ul>
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Layanan lisensi Office 365</a></li>
-                <li><a href="#">Layanan PLN Icon+</a></li>
-                <li><a href="#">Statistik Laporan</a></li>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html">User Office 365</a></li>
+                <li><a href="simcardapn.html">Simcard APN</a></li>
+                <li><a href="services.html">Layanan PLN Icon+</a></li>
+                <li><a href="portfolio.html">Statistik Laporan</a></li>
               </ul>
             </div>
 

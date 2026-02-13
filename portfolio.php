@@ -18,29 +18,18 @@ if (!isset($_SESSION['login'])) {
   <title>Statistik Laporan Icon+</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
-
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-  
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  
   <link href="assets/css/main.css" rel="stylesheet">
-
- 
 </head>
-
 <body class="portfolio-page">
 
   <header id="header" class="header d-flex align-items-center fixed-top">
@@ -54,7 +43,6 @@ if (!isset($_SESSION['login'])) {
           <span class="sitename">DIV STI OPS SUMUT</span>
         </a>
 
-       
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.php">Beranda<br></a></li>
@@ -65,7 +53,6 @@ if (!isset($_SESSION['login'])) {
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
     </div>
   </header>
 
@@ -73,27 +60,65 @@ if (!isset($_SESSION['login'])) {
  
     <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/portfolio-page-title-bg.jpg);">
       <div class="container">
-        <h1>Statistik Laporan Icon+</h1>
+        <h1>Statistik Laporan</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.php">Beranda</a></li>
             <li class="current">Statistik Laporan</li>
           </ol>
         </nav>
       </div>
     </div>
 
-    
     <section id="portfolio" class="portfolio section">
+      <section class="statistik-container">
 
-      
+    <h2 class="page-title">Statistik Laporan</h2>
 
-          
-              
+    <!-- KPI BOX -->
+    <div class="kpi-grid">
+        <div class="kpi-card total">
+            <h3>Total Laporan</h3>
+            <p>-</p>
+        </div>
 
-          
+        <div class="kpi-card success">
+            <h3></h3>
+            <p>-</p>
+        </div>
+
+        <div class="kpi-card warning">
+            <h3>-</h3>
+            <p>-</p>
+        </div>
+
+        <div class="kpi-card danger">
+            <h3>-</h3>
+            <p>-</p>
+        </div>
+    </div>
+
+    <!-- GRAFIK -->
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Laporan per Layanan</h3>
+            <canvas id="layananChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>-</h3>
+            <canvas id="slaChart"></canvas>
+        </div>
+    </div>
+
+    <!-- TREND BULANAN -->
+    <div class="chart-card full-width">
+        <h3>Trend Laporan Pertahun</h3>
+        <canvas id="trendChart"></canvas>
+    </div>
+
+</section>     
     </section>
-
   </main>
 
   <footer id="footer" class="footer light-background">
@@ -120,16 +145,17 @@ if (!isset($_SESSION['login'])) {
           <div class="col-lg-2 col-6 footer-links">
             <h4>Tautan Link</h4>
             <ul>
-              <li><a href="#">Beranda</a></li>
-              <li><a href="#">Layanan User Office 365</a></li>
-              <li><a href="#">Layanan PLN Icon+</a></li>
-              <li><a href="#">Statistik Laporan Icon+</a></li>
-              
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="about.html">User Office 365</a></li>
+              <li><a href="simcardapn.html">Simcard APN</a></li>
+              <li><a href="layanannetwork.html">Layanan Network</a></li>
+              <li><a href="services.html">Layanan SLA Icon+</a></li>
+              <li><a href="portfolio.html">Statistik Laporan </a></li>
             </ul>
           </div>
 
           <div class="col-lg-2 col-6 footer-links">
-            <h4>Layanan Kami</h4>
+            <h4>Layanan</h4>
             <ul>
               <li><a href="#">IPVPN</a></li>
               <li><a href="#">METRONET</a></li>
@@ -158,8 +184,7 @@ if (!isset($_SESSION['login'])) {
 
   
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  
+ 
   <div id="preloader"></div>
 
   

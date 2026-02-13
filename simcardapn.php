@@ -189,7 +189,7 @@ if (isset($_POST['submit'])) {
     <div class="col-md-4">
       <input type="text" class="form-control form-control-lg"
              id="searchKeyword"
-             placeholder="Cari judul / nomor laporan...">
+             placeholder="Cari nomor BA...">
     </div>
     <div class="col-md-2">
       <input type="date" class="form-control form-control-lg"
@@ -355,7 +355,7 @@ if (isset($_POST['submit'])) {
     </div>
   </div>
 
-        <!-- Divider -->
+        
         <div class="provider-section">
   <div class="provider-title">
     INDOSAT
@@ -421,7 +421,6 @@ if (isset($_POST['submit'])) {
 </div>
 </form>
 
-
     </main>
 
     <footer id="footer" class="footer light-background">
@@ -448,10 +447,12 @@ if (isset($_POST['submit'])) {
             <div class="col-lg-2 col-6 footer-links">
               <h4>Tautan Link</h4>
               <ul>
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Layanan lisensi Office 365</a></li>
-                <li><a href="#">Layanan PLN Icon+</a></li>
-                <li><a href="#">Statistik Laporan</a></li>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html">User Office 365</a></li>
+                <li><a href="simcardapn.html">Simcard APN</a></li>
+                <li><a href="layanannetwork.html">Layanan Network</a></li>
+                <li><a href="services.html">Layanan SLA Icon+</a></li>
+                <li><a href="portfolio.html">Statistik Laporan</a></li>
               </ul>
             </div>
             <div class="col-lg-2 col-6 footer-links">
