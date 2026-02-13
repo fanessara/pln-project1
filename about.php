@@ -1,7 +1,6 @@
 <!--Data Lisensi Official 365-->
 
 <?php
-
 include 'service/koneksi(office).php';
 
 session_start();
@@ -11,47 +10,61 @@ if (!isset($_SESSION['login'])) {
     exit();
 }
 
+/* =====================================================
+   PROSES SIMPAN DATA
+===================================================== */
 if (isset($_POST['submit'])) {
 
-    $bulan = $_POST['periode_bulan'];
-    $tahun = $_POST['tahun'];
-    $no_ba = $_POST['no_ba'];
+    $bulan  = $_POST['periode_bulan'];
+    $tahun  = $_POST['tahun'];
+    $no_ba  = $_POST['no_ba'];
     $tanggal = $_POST['tanggal_ba'];
-    $e1 = $_POST['e1'];
-    $e3 = $_POST['e3'];
-    $e5 = $_POST['e5'];
+    $e1     = $_POST['e1'];
+    $e3     = $_POST['e3'];
+    $e5     = $_POST['e5'];
     $core_call_bridge = $_POST['core_cal_bridge'];
-    $unit = $_POST['unit'];
+    $unit   = $_POST['unit'];
 
     // ===============================
     // VALIDASI FILE
     // ===============================
 
-    if ($_FILES['upload_ba']['error'] == 0) {
+    if ($_FILES['upload_ba']['error'] === 0) {
 
         $nama_file = $_FILES['upload_ba']['name'];
-        $tmp = $_FILES['upload_ba']['tmp_name'];
-        $size = $_FILES['upload_ba']['size'];
+        $tmp       = $_FILES['upload_ba']['tmp_name'];
+        $size      = $_FILES['upload_ba']['size'];
 
         $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
 
-        // cek ekstensi
-        if ($ext != "pdf") {
-            die("File harus PDF");
+        // Cek ekstensi
+        if ($ext !== "pdf") {
+            die("File harus PDF!");
         }
 
-        // cek ukuran max 5MB
+        // Cek ukuran max 5MB
         if ($size > 5 * 1024 * 1024) {
-            die("Ukuran file maksimal 5MB");
+            die("Ukuran file maksimal 5MB!");
         }
 
-        // rename supaya tidak bentrok
-        $nama_baru = time() . "_" . $nama_file;
+        // Rename file
+        $nama_baru = uniqid() . ".pdf";
 
-        move_uploaded_file($tmp, "upload/" . $nama_baru);
+        // Path folder upload (lebih aman pakai __DIR__)
+        $folder = __DIR__ . "/upload/";
+
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        $upload_path = $folder . $nama_baru;
+
+        if (!move_uploaded_file($tmp, $upload_path)) {
+            die("Gagal upload file!");
+        }
 
     } else {
-        echo "<script>alert('File wajib diupload'); window.history.back();</script>";
+        echo "<script>alert('File wajib diupload!');window.history.back();</script>";
         exit();
     }
 
@@ -65,24 +78,43 @@ if (isset($_POST['submit'])) {
         ('$bulan', '$tahun', '$no_ba', '$tanggal', '$e1', '$e3', '$e5', '$core_call_bridge', '$unit', '$nama_baru')";
 
     if (mysqli_query($conn, $query)) {
-
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
         exit();
-
     } else {
-
-    // Tidak redirect, tidak popup
-    // Bisa log error kalau mau
+        echo "Gagal menyimpan ke database: " . mysqli_error($conn);
     }
 }
 
+/* =====================================================
+   PROSES SEARCH DATA
+===================================================== */
+$resultData = null;
+$errorSearch = "";
 
+if (isset($_GET['cari'])) {
+
+    $search = trim($_GET['search_ba']);
+
+    if ($search == "") {
+        $errorSearch = "Nomor BA tidak boleh kosong!";
+    } else {
+
+        $search = mysqli_real_escape_string($conn, $search);
+
+        $queryData = "SELECT * FROM user 
+                      WHERE no_ba LIKE '%$search%' 
+                      ORDER BY id DESC";
+
+        $resultData = mysqli_query($conn, $queryData);
+    }
+}
 ?>
 
+<!-- ALERT SUCCESS -->
 <?php if (isset($_GET['success'])): ?>
 <script>
-    alert('Data berhasil disimpan');
-    window.history.replaceState(null, null, window.location.pathname);
+alert('Data berhasil disimpan!');
+window.history.replaceState(null, null, window.location.pathname);
 </script>
 <?php endif; ?>
 
@@ -168,26 +200,122 @@ if (isset($_POST['submit'])) {
       <h2>Monitoring Laporan</h2>
       <p>Pencarian dan pengelolaan laporan layanan operasional</p>
     </div>
-   
-    <div class="card laporan-card mb-4">
-      <div class="row g-3 align-items-center">
-        <div class="col-md-8">
-          <input type="text" class="form-control form-control-lg"
-                 placeholder="Masukkan nomor laporan...">
-        </div>
-        <div class="col-md-4 d-flex gap-2">
-          <button class="btn btn-outline-primary w-100">
-            Cari Laporan
-          </button>
-          <button class="btn btn-primary w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalLaporan">
-             + Tambah Laporan
-          </button>
-        </div>
+
+<form method="GET">
+  <div class="card laporan-card mb-4">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-8">
+        <input type="text" 
+               name="search_ba"
+               class="form-control form-control-lg"
+               placeholder="Masukkan nomor BA..."
+               required>
       </div>
-    </div>   
-    <div class="card laporan-card">
+
+      <div class="col-md-4 d-flex gap-2">
+        <button type="submit" name="cari" class="btn btn-outline-primary w-100">
+          Cari Laporan
+        </button>
+
+        <button type="button" 
+                class="btn btn-primary w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#modalOffice365">
+          + Tambah Laporan
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="card laporan-card p-4">
+
+<?php if (isset($_GET['cari'])): ?>
+
+    <?php if ($errorSearch != ""): ?>
+
+        <div class="alert alert-danger">
+            <?= $errorSearch; ?>
+        </div>
+
+    <?php elseif ($resultData && mysqli_num_rows($resultData) > 0): ?>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th>No</th>
+                        <th>No BA</th>
+                        <th>Bulan</th>
+                        <th>Tahun</th>
+                        <th>Unit</th>
+                        <th>E1</th>
+                        <th>E3</th>
+                        <th>E5</th>
+                        <th>Core CAL</th>
+                        <th>File BA</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <?php 
+                $no = 1;
+                while ($row = mysqli_fetch_assoc($resultData)) : 
+                ?>
+
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <td><?= $row['no_ba']; ?></td>
+                        <td><?= $row['periode_bulan']; ?></td>
+                        <td><?= $row['tahun']; ?></td>
+                        <td><?= $row['unit']; ?></td>
+                        <td><?= $row['e1']; ?></td>
+                        <td><?= $row['e3']; ?></td>
+                        <td><?= $row['e5']; ?></td>
+                        <td><?= $row['core_cal_bridge']; ?></td>
+                        <td>
+                        <?php
+                        $file_path = "upload/" . $row['upload_ba'];
+
+                        if (!empty($row['upload_ba']) && file_exists($file_path)) :
+                        ?>
+                            <a href="<?= $file_path; ?>" 
+                               target="_blank"
+                               class="btn btn-sm btn-outline-primary">
+                               Lihat PDF
+                            </a>
+                        <?php else: ?>
+                            <span class="text-danger">File tidak ditemukan</span>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+
+                <?php endwhile; ?>
+
+                </tbody>
+            </table>
+        </div>
+
+    <?php else: ?>
+
+        <div class="alert alert-warning">
+            Data dengan Nomor BA tersebut tidak ditemukan.
+        </div>
+
+    <?php endif; ?>
+
+<?php else: ?>
+
+    <div class="text-center text-muted">
+        Silakan masukkan Nomor BA untuk mencari laporan.
+    </div>
+
+<?php endif; ?>
+
+</div>
+
+</div>
+    <!-- <div class="card laporan-card">
       <div class="empty-state">
         <h5>Data tidak ditemukan</h5>
         <p>Silakan cari laporan atau tambahkan laporan baru</p>
@@ -204,7 +332,7 @@ if (isset($_POST['submit'])) {
         </div>
       </div>
       -->
-    </div>
+    </div> -->
   </div>
 
   <div class="modal fade" id="modalOffice365" tabindex="-1">

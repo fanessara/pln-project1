@@ -1,13 +1,177 @@
 <!-- Layanan PLN iCON+ -->
 
 <?php
+
+include "service/koneksi(layananplnicon).php";
+
 session_start();
 
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit();
 }
+
+  if (isset($_POST['submit'])) {
+    $periode_bulan = $_POST['periode_bulan'] ?? '';
+    $tahun = $_POST['tahun'] ?? '';
+    $no_ba = $_POST['no_ba'] ?? '';
+    $tanggal_ba = $_POST['tanggal_ba'] ?? '';
+
+    $internet_jl = $_POST['internet_jl'] ?? 0;
+    $internet_jt = $_POST['internet_jt'] ?? 0;
+    $internet_tdg = $_POST['internet_tdg'] ?? 0;
+    $internet_p_mttr = $_POST['internet_p_mttr'] ?? 0;
+    $internet_p_sla = $_POST['internet_p_sla'] ?? 0;
+
+    $ipvpn_jl = $_POST['ipvpn_jl'] ?? 0;
+    $ipvpn_jt = $_POST['ipvpn_jt'] ?? 0;
+    $ipvpn_tdg = $_POST['ipvpn_tdg'] ?? 0;
+    $ipvpn_p_mttr = $_POST['ipvpn_p_mttr'] ?? 0;
+    $ipvpn_p_sla = $_POST['ipvpn_p_sla'] ?? 0;
+
+    $metronet_jl = $_POST['metronet_jl'] ?? 0;
+    $metronet_jt = $_POST['metronet_jt'] ?? 0;
+    $metronet_tdg = $_POST['metronet_tdg'] ?? 0;
+    $metronet_p_mttr = $_POST['metronet_p_mttr'] ?? 0;
+    $metronet_p_sla = $_POST['metronet_p_sla'] ?? 0;
+
+    $clear_channel_jl = $_POST['clear_channel_jl'] ?? 0;
+    $clear_channel_jt = $_POST['clear_channel_jt'] ?? 0;
+    $clear_channel_tdg = $_POST['clear_channel_tdg'] ?? 0;
+    $clear_channel_p_mttr = $_POST['clear_channel_p_mttr'] ?? 0;
+    $clear_channel_p_sla = $_POST['clear_channel_p_sla'] ?? 0;
+
+    $vsat_ip_jl = $_POST['vsat_ip_jl'] ?? 0;
+    $vsat_ip_jt = $_POST['vsat_ip_jt'] ?? 0;
+    $vsat_ip_tdg = $_POST['vsat_ip_tdg'] ?? 0;
+    $vsat_ip_p_mttr = $_POST['vsat_ip_p_mttr'] ?? 0;
+    $vsat_ip_p_sla = $_POST['vsat_ip_p_sla'] ?? 0;
+
+    $internet_vsat_jl = $_POST['internet_vsat_jl'] ?? 0;
+    $internet_vsat_jt = $_POST['internet_vsat_jt'] ?? 0;
+    $internet_vsat_tdg = $_POST['internet_vsat_tdg'] ?? 0;
+    $internet_vsat_p_mttr = $_POST['internet_vsat_p_mttr'] ?? 0;
+    $internet_vsat_p_sla = $_POST['internet_vsat_p_sla'] ?? 0;
+
+    $core_jl = $_POST['core_jl'] ?? 0;
+    $core_jt = $_POST['core_jt'] ?? 0;
+    $core_tdg = $_POST['core_tdg'] ?? 0;
+    $core_p_mttr = $_POST['core_p_mttr'] ?? 0;
+    $core_p_sla = $_POST['core_p_sla'] ?? 0;
+
+    $sumut1_ns_jl = $_POST['sumut1_ns_jl'] ?? 0;
+    $sumut1_ns_jt = $_POST['sumut1_ns_jt'] ?? 0;
+    $sumut1_ns_tdg = $_POST['sumut1_ns_tdg'] ?? 0;
+    $sumut1_ns_p_mttr = $_POST['sumut1_ns_p_mttr'] ?? 0;
+    $sumut1_ns_p_sla = $_POST['sumut1_ns_p_sla'] ?? 0;
+
+    $sumut1_sn_jl = $_POST['sumut1_sn_jl'] ?? 0;
+    $sumut1_sn_jt = $_POST['sumut1_sn_jt'] ?? 0;
+    $sumut1_sn_tdg = $_POST['sumut1_sn_tdg'] ?? 0;
+    $sumut1_sn_p_mttr = $_POST['sumut1_sn_p_mttr'] ?? 0;
+    $sumut1_sn_p_sla = $_POST['sumut1_sn_p_sla'] ?? 0;
+
+    $sumut2_ns_jl = $_POST['sumut2_ns_jl'] ?? 0;
+    $sumut2_ns_jt = $_POST['sumut2_ns_jt'] ?? 0;
+    $sumut2_ns_tdg = $_POST['sumut2_ns_tdg'] ?? 0;
+    $sumut2_ns_p_mttr = $_POST['sumut2_ns_p_mttr'] ?? 0;
+    $sumut2_ns_p_sla = $_POST['sumut2_ns_p_sla'] ?? 0;
+
+    $sumut2_sn_jl = $_POST['sumut2_sn_jl'] ?? 0;
+    $sumut2_sn_jt = $_POST['sumut2_sn_jt'] ?? 0;
+    $sumut2_sn_tdg = $_POST['sumut2_sn_tdg'] ?? 0;
+    $sumut2_sn_p_mttr = $_POST['sumut2_sn_p_mttr'] ?? 0;
+    $sumut2_sn_p_sla = $_POST['sumut2_sn_p_sla'] ?? 0;
+
+    // $total_sti_sumut_ns_jl = $_POST['total_sti_sumut_ns_jl'];
+    // $total_sti_sumut_ns_jt = $_POST['total_sti_sumut_ns_jt'];
+    // $total_sti_sumut_ns_tdg = $_POST['total_sti_sumut_ns_tdg'];
+    // $total_sti_sumut_ns_p_mttr = $_POST['total_sti_sumut_ns_p_mttr'];
+    // $total_sti_sumut_ns_sla = $_POST['total_sti_sumut_ns_sla'];
+
+    // $total_sti_sumut_sn_jl = $_POST['total_sti_sumut_sn_jl'];
+    // $total_sti_sumut_sn_jt = $_POST['total_sti_sumut_sn_jt'];
+    // $total_sti_sumut_sn_tdg = $_POST['total_sti_sumut_sn_tdg'];
+    // $total_sti_sumut_sn_p_mttr = $_POST['total_sti_sumut_sn_p_mttr'];
+    // $total_sti_sumut_sn_p_sla = $_POST['total_sti_sumut_sn_p_sla'];
+
+    $nama_baru = $_FILES['upload_ba'];
+  
+
+    // ===============================
+    // VALIDASI FILE
+    // ===============================
+
+$upload_ba = '';
+
+if (isset($_FILES['upload_ba']) && $_FILES['upload_ba']['error'] == 0) {
+
+    $nama_file = $_FILES['upload_ba']['name'];
+    $tmp       = $_FILES['upload_ba']['tmp_name'];
+    $size      = $_FILES['upload_ba']['size'];
+
+    $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+
+    if ($ext != "pdf") {
+        die("File harus PDF");
+    }
+
+    if ($size > 5 * 1024 * 1024) {
+        die("Ukuran maksimal 5MB");
+    }
+
+    $folder = __DIR__ . "/upload_data/";
+
+    if (!is_dir($folder)) {
+        mkdir($folder, 0777, true);
+    }
+
+    $upload_ba = time() . "_" . $nama_file;
+
+    if (!move_uploaded_file($tmp, $folder . $upload_ba)) {
+        die("Gagal upload file");
+    }
+}
+
+
+
+    // ===============================
+    // INSERT DATABASE
+    // ===============================
+
+    $query = "INSERT INTO data 
+        (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba)
+        
+        VALUES 
+        ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$upload_ba')";
+
+// total_sti_sumut_ns_jl, total_sti_sumut_ns_jt, total_sti_sumut_ns_tdg, total_sti_sumut_ns_p_mttr, total_sti_sumut_ns_sla, total_sti_sumut_sn_jl, total_sti_sumut_sn_jt, total_sti_sumut_sn_tdg, total_sti_sumut_sn_p_mttr, total_sti_sumut_sn_p_sla,
+
+//, '$total_sti_sumut_ns_jl', '$total_sti_sumut_ns_jt', '$total_sti_sumut_ns_tdg', '$total_sti_sumut_ns_p_mttr', '$total_sti_sumut_ns_sla', '$total_sti_sumut_sn_jl', '$total_sti_sumut_sn_jt', '$total_sti_sumut_sn_tdg', '$total_sti_sumut_sn_p_mttr', '$total_sti_sumut_sn_p_sla',
+
+    if (mysqli_query($conn, $query)) {
+
+        header("Location: ".$_SERVER['PHP_SELF']."?success=1");
+        exit(); 
+
+    } else {
+
+    // Tidak redirect, tidak popup
+    // Bisa log error kalau mau
+    }
+}
+
+
+
+
 ?>
+
+<?php if (isset($_GET['success'])): ?>
+<script>
+    alert('Data berhasil disimpan');
+    window.history.replaceState(null, null, window.location.pathname);
+</script>
+<?php endif; ?>
 
 <!doctype html>
 <html lang="en">
@@ -142,7 +306,7 @@ if (!isset($_SESSION['login'])) {
   </div>
 </div>
   
-
+<form method="POST" enctype="multipart/form-data">
 <div class="modal fade" id="modalSLAIcon" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content border-0 rounded-4">
@@ -160,44 +324,44 @@ if (!isset($_SESSION['login'])) {
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-     
+    
       <div class="modal-body px-4">
 
        
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Periode Bulan</label>
-            <select class="form-select pln-input">
+            <select class="form-select pln-input" name="periode_bulan">
               <option selected disabled>Pilih bulan</option>
-              <option>Januari</option>
-              <option>Februari</option>
-              <option>Maret</option>
-              <option>April</option>
-              <option>Mei</option>
-              <option>Juni</option>
-              <option>Juli</option>
-              <option>Agustus</option>
-              <option>September</option>
-              <option>Oktober</option>
-              <option>November</option>
-              <option>Desember</option>
+              <option value="1">Januari</option>
+              <option value="2">Februari</option>
+              <option value="3">Maret</option>
+              <option value="4">April</option>
+              <option value="5">Mei</option>
+              <option value="6">Juni</option>
+              <option value="7">Juli</option>
+              <option value="8">Agustus</option>
+              <option value="9">September</option>
+              <option value="10">Oktober</option>
+              <option value="11">November</option>
+              <option value="12">Desember</option>
             </select>
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Tahun</label>
-            <input type="number" class="form-control pln-input" value="2026">
+            <input type="number" class="form-control pln-input" placeholder="2026" name="tahun">
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Nomor BA</label>
             <input type="text" class="form-control pln-input"
-                   placeholder="Nomor Berita Acara">
+                   placeholder="Nomor Berita Acara" name="no_ba">
           </div>
 
           <div class="col-md-3">
             <label class="form-label pln-label">Tanggal BA</label>
-            <input type="date" class="form-control pln-input">
+            <input type="date" class="form-control pln-input" name="tanggal_ba">
           </div>
         </div>
 
@@ -211,23 +375,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="internet_p_sla">
           </div>
         </div>
 
@@ -239,23 +403,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="ipvpn_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="ipvpn_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input"name="ipvpn_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="ipvpn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="ipvpn_p_sla">
           </div>
         </div>
 
@@ -267,23 +431,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="metronet_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="metronet_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="metronet_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="metronet_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="metronet_p_sla">
           </div>
         </div>
 
@@ -295,23 +459,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="clear_channel_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="clear_channel_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="clear_channel_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="clear_channel_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="clear_channel_p_sla">
           </div>
         </div>
 
@@ -323,23 +487,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="vsat_ip_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="vsat_ip_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="vsat_ip_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="vsat_ip_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="vsat_ip_p_sla">
           </div>
         </div>
 
@@ -351,23 +515,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_vsat_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_vsat_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_vsat_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="internet_vsat_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="internet_vsat_p_sla">
           </div>
         </div>
 
@@ -379,23 +543,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="core_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="core_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="core_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="core_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="core_p_sla">
           </div>
         </div>
         <div class="row g-3 mt-2">
@@ -418,23 +582,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="NON SCADA">
+            <input type="text" class="form-control pln-input" placeholder="NON SCADA" name="sumut1_ns_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_ns_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_ns_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_ns_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="sumut1_ns_p_sla">
           </div>
         </div>
 
@@ -447,23 +611,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT">
+            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT" name="sumut1_sn_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_sn_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_sn_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut1_sn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="sumut1_sn_p_sla">
           </div>
         </div>
 
@@ -475,23 +639,23 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="NON SCADA">
+            <input type="text" class="form-control pln-input" placeholder="NON SCADA" name="sumut2_ns_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_ns_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_ns_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_ns_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="sumut2_ns_p_sla">
           </div>
         </div>      
 
@@ -503,29 +667,29 @@ if (!isset($_SESSION['login'])) {
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT">
+            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT" name="sumut2_sn_jl">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_sn_jt">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Total Durasi Gangguan (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_sn_tdg">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input">
+            <input type="number" class="form-control pln-input" name="sumut2_sn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input">
+            <input type="number" step="0.01"class="form-control pln-input" name="sumut2_sn_p_sla">
           </div>
         </div>      
 
         <div class="col-12 text-center">
               <label class="upload-box">
-                <input type="file" hidden accept=".pdf">
+                <input type="file" hidden accept=".pdf" name="upload_ba">
                 <i class="bi bi-upload"></i>
                 <div>Upload BA (PDF)</div>
                 <small>Maks. 5MB</small>
@@ -536,11 +700,11 @@ if (!isset($_SESSION['login'])) {
         <button class="btn btn-light" data-bs-dismiss="modal">
           Batal
         </button>
-        <button class="btn btn-primary px-4">
+        <button type="submit" name="submit" class="btn btn-primary px-4" >
           Simpan Laporan
         </button>
       </div>
-
+  </form>
 
     </main>
 
