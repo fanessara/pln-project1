@@ -84,6 +84,32 @@ if (isset($_POST['submit'])) {
     }
 }
 
+// ===============================
+// PROSES SEARCH
+// ===============================
+
+$resultData = null;
+
+if (isset($_GET['cari'])) {
+
+    $keyword = $_GET['keyword'] ?? '';
+    $start   = $_GET['start'] ?? '';
+    $end     = $_GET['end'] ?? '';
+
+    $querySearch = "SELECT * FROM data WHERE 1=1";
+
+    if (!empty($keyword)) {
+        $querySearch .= " AND no_ba LIKE '%$keyword%'";
+    }
+
+    if (!empty($start) && !empty($end)) {
+        $querySearch .= " AND tanggal_ba BETWEEN '$start' AND '$end'";
+    }
+
+    $querySearch .= " ORDER BY id DESC";
+
+    $resultData = mysqli_query($conn, $querySearch);
+}
 
 ?>
 
@@ -184,45 +210,133 @@ if (isset($_POST['submit'])) {
         </div>
       </div>    
 <div class="card shadow-sm border-0 rounded-4 p-4 search-card-pln">
-  <div class="row g-3 align-items-center">
-
+<form method="GET" class="row g-3 align-items-center">
     <div class="col-md-4">
-      <input type="text" class="form-control form-control-lg"
-             id="searchKeyword"
-             placeholder="Cari nomor BA...">
-    </div>
-    <div class="col-md-2">
-      <input type="date" class="form-control form-control-lg"
-             id="startDate">
+        <input type="text" name="keyword"
+               class="form-control form-control-lg"
+               placeholder="Cari nomor BA...">
     </div>
 
     <div class="col-md-2">
-      <input type="date" class="form-control form-control-lg"
-             id="endDate">
+        <input type="date" name="start"
+               class="form-control form-control-lg">
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" name="end"
+               class="form-control form-control-lg">
     </div>
 
     <div class="col-md-4 d-flex gap-2">
-      <button class="btn btn-primary w-100" id="btnSearch">
-        Cari Laporan
-      </button>
+        <button type="submit" name="cari"
+                class="btn btn-primary w-100">
+            Cari Laporan
+        </button>
 
-      <button class="btn btn-outline-primary w-100"
-              data-bs-toggle="modal"
-              data-bs-target="#modalLaporan">
-        + Tambah Laporan
-      </button>
+        <button type="button"
+                class="btn btn-outline-primary w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLaporan">
+            + Tambah Laporan
+        </button>
     </div>
-  </div>
+</form>
 </div>
-<div class="card laporan-card mt-4" id="emptyState">
-  <div class="empty-state text-center py-5">
-    <h5 class="fw-semibold">Data tidak ditemukan</h5>
-    <p class="text-muted mb-0">
-      Silakan cari laporan atau tambahkan laporan baru
-    </p>
-  </div>
+<div class="card laporan-card mt-4 shadow-sm border-0">
+  <div class="card-body">
+
+<?php if(isset($_GET['cari']) && $resultData && mysqli_num_rows($resultData) > 0): ?>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle text-center">
+
+<thead class="table-primary">
+<tr>
+  <th>No</th>
+  <th>Periode</th>
+  <th>Tahun</th>
+  <th>No BA</th>
+  <th>Tanggal</th>
+
+  <th>AMR Tsel</th>
+  <th>SCADA Tsel</th>
+  <th>SPKLU Tsel</th>
+  <th>Total Tsel</th>
+
+  <th>AMR XL</th>
+  <th>SCADA XL</th>
+  <th>SPKLU XL</th>
+  <th>Total XL</th>
+
+  <th>AMR Indosat</th>
+  <th>SCADA Indosat</th>
+  <th>SPKLU Indosat</th>
+  <th>Total Indosat</th>
+
+  <th>File BA</th>
+</tr>
+</thead>
+
+<tbody>
+<?php $no = 1; ?>
+<?php while($row = mysqli_fetch_assoc($resultData)): ?>
+<tr>
+
+<td><?= $no++; ?></td>
+
+<td><?= $row['periode_bulan']; ?></td>
+<td><?= $row['tahun']; ?></td>
+<td class="fw-bold text-primary"><?= $row['no_ba']; ?></td>
+<td><?= $row['tanggal_ba']; ?></td>
+
+<td><?= $row['amr_telkomsel']; ?></td>
+<td><?= $row['scada_telkomsel']; ?></td>
+<td><?= $row['spklu_telkomsel']; ?></td>
+<td>Rp <?= number_format($row['total_telkomsel']); ?></td>
+
+<td><?= $row['amr_xl']; ?></td>
+<td><?= $row['scada_xl']; ?></td>
+<td><?= $row['spklu_xl']; ?></td>
+<td>Rp <?= number_format($row['total_xl']); ?></td>
+
+<td><?= $row['amr_indosat']; ?></td>
+<td><?= $row['scada_indosat']; ?></td>
+<td><?= $row['spklu_indosat']; ?></td>
+<td>Rp <?= number_format($row['total_indosat']); ?></td>
+
+<td>
+  <a href="upload/<?= htmlspecialchars($row['upload_ba']); ?>"
+     target="_blank"
+     class="btn btn-sm btn-outline-danger">
+     Lihat PDF
+  </a>
+</td>
+
+</tr>
+<?php endwhile; ?>
+</tbody>
+
+</table>
 </div>
 
+<?php elseif(isset($_GET['cari'])): ?>
+
+<div class="text-center py-4">
+  <h5 class="text-danger">Data tidak ditemukan</h5>
+  <p class="text-muted">Silakan coba filter lain</p>
+</div>
+
+<?php else: ?>
+
+<div class="text-center py-4">
+  <h5 class="text-muted">Belum ada pencarian</h5>
+  <p>Silakan cari berdasarkan nomor BA atau tanggal</p>
+</div>
+
+<?php endif; ?>
+
+  </div>
+</div>
 
 <div class="modal fade" id="modalLaporan" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
