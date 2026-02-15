@@ -254,38 +254,54 @@ window.history.replaceState(null, null, window.location.pathname);
     <div class="table-responsive">
       <table class="table table-bordered table-hover align-middle text-center">
         
-        <thead class="table-primary">
-          <tr>
-            <th>No</th>
-            <th>No BA</th>
-            <th>Periode</th>
-            <th>Tahun</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+          <thead class="table-primary">
+            <tr>
+              <th>No</th>
+              <th>No BA</th>
+              <th>Periode</th>
+              <th>Tahun</th>
+              <th>E1</th>
+              <th>E3</th>
+              <th>E5</th>
+              <th>Core CAL</th>
+              <th>Unit</th>
+              <th>File BA</th>
+            </tr>
+          </thead>
 
-        <tbody>
-
-        <?php $no = 1; ?>
-        <?php while($row = mysqli_fetch_assoc($resultData)): ?>
-          <tr>
-            <td><?= $no++; ?></td>
-            <td>
-              <span class="fw-bold text-primary">
+          <tbody>
+          
+          <?php $no = 1; ?>
+          <?php while($row = mysqli_fetch_assoc($resultData)): ?>
+            <tr>
+              <td><?= $no++; ?></td>
+          
+              <td class="fw-bold text-primary">
                 <?= $row['no_ba']; ?>
-              </span>
-            </td>
-            <td><?= $row['periode_bulan']; ?></td>
-            <td><?= $row['tahun']; ?></td>
-            <td>
-              <span class="badge bg-success">
-                Aktif
-              </span>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-
-        </tbody>
+              </td>
+          
+              <td><?= $row['periode_bulan']; ?></td>
+              <td><?= $row['tahun']; ?></td>
+          
+              <td><?= $row['e1']; ?></td>
+              <td><?= $row['e3']; ?></td>
+              <td><?= $row['e5']; ?></td>
+              <td><?= $row['core_cal_bridge']; ?></td>
+          
+              <td><?= $row['unit']; ?></td>
+          
+              <td>
+                <a href="upload/<?= $row['upload_ba']; ?>" 
+                   target="_blank" 
+                   class="btn btn-sm btn-outline-danger">
+                   Lihat PDF
+                </a>
+              </td>
+          
+            </tr>
+          <?php endwhile; ?>
+          
+          </tbody>
 
       </table>
     </div>
