@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
     $sumut2_sn_tdg = $_POST['sumut2_sn_tdg'];
     $sumut2_sn_p_mttr = $_POST['sumut2_sn_p_mttr'];
     $sumut2_sn_p_sla = $_POST['sumut2_sn_p_sla'];
-    //$nama_baru = $_POST['upload_ba'];
+    $nama_baru = $_POST['upload_ba'];
 
     // ===============================
     // VALIDASI FILE
@@ -152,33 +152,22 @@ $errorSearch = "";
 
 if (isset($_GET['cari'])) {
 
-    $conditions = [];
+    $search = trim($_GET['search_ba']);
+    $start  = trim($_GET['start_date']);
+    $end    = trim($_GET['end_date']);
 
-    // Ambil input
-    $search      = trim($_GET['search_ba'] ?? '');
-    $start_date  = $_GET['start_date'] ?? '';
-    $end_date    = $_GET['end_date'] ?? '';
+    // 🔥 WAJIB SEMUA DIISI
+    if ($search == "" || $start == "" || $end == "") {
 
-    // Filter Nomor BA (opsional)
-    if ($search != "") {
-        $search = mysqli_real_escape_string($conn, $search);
-        $conditions[] = "no_ba LIKE '%$search%'";
-    }
+        $errorSearch = "Semua field harus diisi terlebih dahulu!";
 
-    // Filter Tanggal (opsional)
-    if ($start_date != "" && $end_date != "") {
-        $conditions[] = "tanggal_ba BETWEEN '$start_date' AND '$end_date'";
-    }
-
-    // Kalau semua kosong
-    if (empty($conditions)) {
-        $errorSearch = "Silakan isi minimal satu filter pencarian!";
     } else {
 
-        $where = "WHERE " . implode(" AND ", $conditions);
+        $search = mysqli_real_escape_string($conn, $search);
 
         $queryData = "SELECT * FROM data 
-                      $where
+                      WHERE no_ba LIKE '%$search%' 
+                      AND tanggal_ba BETWEEN '$start' AND '$end'
                       ORDER BY id DESC";
 
         $resultData = mysqli_query($conn, $queryData);
@@ -283,141 +272,144 @@ window.history.replaceState(null, null, window.location.pathname);
         </div>
       </div>
     
+<form method="GET">
 <div class="card shadow-sm border-0 rounded-4 p-4 search-card-pln">
-  
-  <form method="GET">
-    <div class="row g-3 align-items-center">
+  <div class="row g-3 align-items-center">
 
-      <div class="col-md-4">
-        <input type="text"
-               class="form-control form-control-lg"
-               id="searchKeyword"
-               name="search_ba"
-               placeholder="Cari nomor BA...">
-      </div>
-
-      <div class="col-md-2">
-        <input type="date"
-               class="form-control form-control-lg"
-               name="start_date">
-      </div>
-
-      <div class="col-md-2">
-        <input type="date"
-               class="form-control form-control-lg"
-               name="end_date">
-      </div>
-
-      <div class="col-md-4 d-flex gap-2">
-        <button type="submit"
-                name="cari"
-                class="btn btn-primary w-100">
-          Cari Laporan
-        </button>
-
-        <button type="button"
-                class="btn btn-outline-primary w-100"
-                data-bs-toggle="modal"
-                data-bs-target="#modalSLAIcon">
-          + Tambah Laporan
-        </button>
-      </div>
-
+    <div class="col-md-4">
+      <input type="text"
+             class="form-control form-control-lg"
+             name="search_ba"
+             placeholder="Cari nomor BA..."
+             value="<?= isset($_GET['search_ba']) ? $_GET['search_ba'] : '' ?>">
     </div>
-  </form>
 
+    <div class="col-md-2">
+      <input type="date"
+             class="form-control form-control-lg"
+             name="start_date"
+             value="<?= isset($_GET['start_date']) ? $_GET['start_date'] : '' ?>">
+    </div>
+
+    <div class="col-md-2">
+      <input type="date"
+             class="form-control form-control-lg"
+             name="end_date"
+             value="<?= isset($_GET['end_date']) ? $_GET['end_date'] : '' ?>">
+    </div>
+
+    <div class="col-md-4 d-flex gap-2">
+      <button type="submit"
+              name="cari"
+              class="btn btn-primary w-100">
+        Cari Laporan
+      </button>
+
+      <button type="button"
+              class="btn btn-outline-primary w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#modalSLAIcon">
+        + Tambah Laporan
+      </button>
+    </div>
+
+  </div>
 </div>
+</form>
  
-<?php if(isset($_GET['cari'])): ?>
+<?php if ($resultData && mysqli_num_rows($resultData) > 0): ?>
 
-  <?php if($resultData && mysqli_num_rows($resultData) > 0): ?>
+<?php if($errorSearch != ""): ?>
+  <div class="alert alert-danger mt-3">
+    <?= $errorSearch; ?>
+  </div>
+<?php endif; ?>
 
-    <!-- TABEL DATA -->
-    <div class="card mt-4 p-4 shadow-sm">
-      <div class="table-responsive" style="overflow-x:auto;">
-        <table class="table table-bordered table-hover text-center align-middle">
-<thead class="table-primary">
+<div class="card mt-4 p-4 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center align-middle">
+      <thead class="table-primary">
 <tr>
-  <th>No</th>
-  <th>Periode</th>
-  <th>No BA</th>
-  <th>Tanggal</th>
+<th>No</th>
+<th>Periode</th>
+<th>No BA</th>
+<th>Tanggal</th>
 
-  <th>Internet JL</th>
-  <th>Internet JT</th>
-  <th>Internet TDG</th>
-  <th>Internet MTTR</th>
-  <th>Internet SLA</th>
+<th>Internet JL</th>
+<th>Internet JT</th>
+<th>Internet TDG</th>
+<th>Internet MTTR</th>
+<th>Internet SLA</th>
 
-  <th>IPVPN JL</th>
-  <th>IPVPN JT</th>
-  <th>IPVPN TDG</th>
-  <th>IPVPN MTTR</th>
-  <th>IPVPN SLA</th>
+<th>IPVPN JL</th>
+<th>IPVPN JT</th>
+<th>IPVPN TDG</th>
+<th>IPVPN MTTR</th>
+<th>IPVPN SLA</th>
 
-  <th>Metronet JL</th>
-  <th>Metronet JT</th>
-  <th>Metronet TDG</th>
-  <th>Metronet MTTR</th>
-  <th>Metronet SLA</th>
+<th>Metronet JL</th>
+<th>Metronet JT</th>
+<th>Metronet TDG</th>
+<th>Metronet MTTR</th>
+<th>Metronet SLA</th>
 
-  <th>Clear JL</th>
-  <th>Clear JT</th>
-  <th>Clear TDG</th>
-  <th>Clear MTTR</th>
-  <th>Clear SLA</th>
+<th>Clear JL</th>
+<th>Clear JT</th>
+<th>Clear TDG</th>
+<th>Clear MTTR</th>
+<th>Clear SLA</th>
 
-  <th>VSAT JL</th>
-  <th>VSAT JT</th>
-  <th>VSAT TDG</th>
-  <th>VSAT MTTR</th>
-  <th>VSAT SLA</th>
+<th>VSAT IP JL</th>
+<th>VSAT IP JT</th>
+<th>VSAT IP TDG</th>
+<th>VSAT IP MTTR</th>
+<th>VSAT IP SLA</th>
 
-  <th>Internet VSAT JL</th>
-  <th>Internet VSAT JT</th>
-  <th>Internet VSAT TDG</th>
-  <th>Internet VSAT MTTR</th>
-  <th>Internet VSAT SLA</th>
+<th>Internet VSAT JL</th>
+<th>Internet VSAT JT</th>
+<th>Internet VSAT TDG</th>
+<th>Internet VSAT MTTR</th>
+<th>Internet VSAT SLA</th>
 
-  <th>Core JL</th>
-  <th>Core JT</th>
-  <th>Core TDG</th>
-  <th>Core MTTR</th>
-  <th>Core SLA</th>
+<th>Core JL</th>
+<th>Core JT</th>
+<th>Core TDG</th>
+<th>Core MTTR</th>
+<th>Core SLA</th>
 
-  <th>Sumut1 NS JL</th>
-  <th>Sumut1 NS JT</th>
-  <th>Sumut1 NS TDG</th>
-  <th>Sumut1 NS MTTR</th>
-  <th>Sumut1 NS SLA</th>
+<th>Sumut1 NS JL</th>
+<th>Sumut1 NS JT</th>
+<th>Sumut1 NS TDG</th>
+<th>Sumut1 NS MTTR</th>
+<th>Sumut1 NS SLA</th>
 
-  <th>Sumut1 SN JL</th>
-  <th>Sumut1 SN JT</th>
-  <th>Sumut1 SN TDG</th>
-  <th>Sumut1 SN MTTR</th>
-  <th>Sumut1 SN SLA</th>
+<th>Sumut1 SN JL</th>
+<th>Sumut1 SN JT</th>
+<th>Sumut1 SN TDG</th>
+<th>Sumut1 SN MTTR</th>
+<th>Sumut1 SN SLA</th>
 
-  <th>Sumut2 NS JL</th>
-  <th>Sumut2 NS JT</th>
-  <th>Sumut2 NS TDG</th>
-  <th>Sumut2 NS MTTR</th>
-  <th>Sumut2 NS SLA</th>
+<th>Sumut2 NS JL</th>
+<th>Sumut2 NS JT</th>
+<th>Sumut2 NS TDG</th>
+<th>Sumut2 NS MTTR</th>
+<th>Sumut2 NS SLA</th>
 
-  <th>Sumut2 SN JL</th>
-  <th>Sumut2 SN JT</th>
-  <th>Sumut2 SN TDG</th>
-  <th>Sumut2 SN MTTR</th>
-  <th>Sumut2 SN SLA</th>
+<th>Sumut2 SN JL</th>
+<th>Sumut2 SN JT</th>
+<th>Sumut2 SN TDG</th>
+<th>Sumut2 SN MTTR</th>
+<th>Sumut2 SN SLA</th>
 
-  <th>File</th>
+<th>File</th>
 </tr>
-</thead>
-          <tbody>
+      </thead>
+      <tbody>
 
-          <?php 
-          $no = 1;
-          while($row = mysqli_fetch_assoc($resultData)): 
-          ?>
+      <?php 
+      $no = 1;
+      while($row = mysqli_fetch_assoc($resultData)):
+      ?>
 
 <tr>
 <td><?= $no++; ?></td>
@@ -492,36 +484,40 @@ window.history.replaceState(null, null, window.location.pathname);
 <td><?= $row['sumut2_sn_p_sla']; ?>%</td>
 
 <td>
-<a href="upload/<?= $row['upload_ba']; ?>" 
-   target="_blank" 
-   class="btn btn-sm btn-success">
-PDF
+<a href="upload/<?= $row['upload_ba']; ?>" target="_blank" class="btn btn-success btn-sm">
+Lihat PDF
 </a>
 </td>
+
 </tr>
 
-          <?php endwhile; ?>
+      <?php endwhile; ?>
 
-          </tbody>
-        </table>
-      </div>
-    </div>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
 
-  <?php else: ?>
+<?php else: ?>
 
-    <!-- DATA TIDAK DITEMUKAN -->
-    <div class="card laporan-card mt-4">
-      <div class="empty-state text-center py-5">
-        <h5 class="fw-semibold">Data tidak ditemukan</h5>
-        <p class="text-muted mb-0">
-          Silakan cari laporan atau tambahkan laporan baru
-        </p>
-      </div>
-    </div>
-
-  <?php endif; ?>
+<div class="card laporan-card mt-4">
+  <div class="empty-state text-center py-5">
+    <h5 class="fw-semibold">Data tidak ditemukan</h5>
+    <p class="text-muted mb-0">
+      Silakan tambahkan laporan baru
+    </p>
+  </div>
+</div>
 
 <?php endif; ?>
+  <div class="empty-state text-center py-5">
+    <h5 class="fw-semibold">Data tidak ditemukan</h5>
+    <p class="text-muted mb-0">
+      Silakan cari laporan atau tambahkan laporan baru
+    </p>
+  </div>
+</div>
   
 <form method="POST" enctype="multipart/form-data">
 <div class="modal fade" id="modalSLAIcon" tabindex="-1" aria-hidden="true">
@@ -976,9 +972,6 @@ PDF
           Simpan Laporan
         </button>
       </div>
-</div>
-</div>
-</div>
   </form>
 
     </main>
