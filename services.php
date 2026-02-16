@@ -1,7 +1,7 @@
 <!-- Layanan PLN iCON+ -->
 
 <?php
-include 'service/koneksi(office).php';
+include 'service/koneksi(layananplnicon).php';
 
 session_start();
 
@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
     $sumut2_sn_tdg = $_POST['sumut2_sn_tdg'];
     $sumut2_sn_p_mttr = $_POST['sumut2_sn_p_mttr'];
     $sumut2_sn_p_sla = $_POST['sumut2_sn_p_sla'];
-    $nama_baru = $_POST['upload_ba'];
+    //$nama_baru = $_POST['upload_ba'];
 
     // ===============================
     // VALIDASI FILE
@@ -134,8 +134,8 @@ if (isset($_POST['submit'])) {
     // INSERT DATABASE
     // ===============================
 
-    $query = "INSERT INTO user (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba VALUES 
-    ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$upload_ba')";
+    $query = "INSERT INTO data (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba) VALUES 
+    ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$nama_baru')";
     if (mysqli_query($conn, $query)) {
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
         exit();
@@ -152,16 +152,33 @@ $errorSearch = "";
 
 if (isset($_GET['cari'])) {
 
-    $search = trim($_GET['search_ba']);
+    $conditions = [];
 
-    if ($search == "") {
-        $errorSearch = "Nomor BA tidak boleh kosong!";
+    // Ambil input
+    $search      = trim($_GET['search_ba'] ?? '');
+    $start_date  = $_GET['start_date'] ?? '';
+    $end_date    = $_GET['end_date'] ?? '';
+
+    // Filter Nomor BA (opsional)
+    if ($search != "") {
+        $search = mysqli_real_escape_string($conn, $search);
+        $conditions[] = "no_ba LIKE '%$search%'";
+    }
+
+    // Filter Tanggal (opsional)
+    if ($start_date != "" && $end_date != "") {
+        $conditions[] = "tanggal_ba BETWEEN '$start_date' AND '$end_date'";
+    }
+
+    // Kalau semua kosong
+    if (empty($conditions)) {
+        $errorSearch = "Silakan isi minimal satu filter pencarian!";
     } else {
 
-        $search = mysqli_real_escape_string($conn, $search);
+        $where = "WHERE " . implode(" AND ", $conditions);
 
-        $queryData = "SELECT * FROM user 
-                      WHERE no_ba LIKE '%$search%' 
+        $queryData = "SELECT * FROM data 
+                      $where
                       ORDER BY id DESC";
 
         $resultData = mysqli_query($conn, $queryData);
@@ -267,47 +284,244 @@ window.history.replaceState(null, null, window.location.pathname);
       </div>
     
 <div class="card shadow-sm border-0 rounded-4 p-4 search-card-pln">
-  <div class="row g-3 align-items-center">
+  
+  <form method="GET">
+    <div class="row g-3 align-items-center">
 
-    <div class="col-md-4">
-      <input type="text" class="form-control form-control-lg"
-             id="searchKeyword"
-             placeholder="Cari nomor BA...">
+      <div class="col-md-4">
+        <input type="text"
+               class="form-control form-control-lg"
+               id="searchKeyword"
+               name="search_ba"
+               placeholder="Cari nomor BA...">
+      </div>
+
+      <div class="col-md-2">
+        <input type="date"
+               class="form-control form-control-lg"
+               name="start_date">
+      </div>
+
+      <div class="col-md-2">
+        <input type="date"
+               class="form-control form-control-lg"
+               name="end_date">
+      </div>
+
+      <div class="col-md-4 d-flex gap-2">
+        <button type="submit"
+                name="cari"
+                class="btn btn-primary w-100">
+          Cari Laporan
+        </button>
+
+        <button type="button"
+                class="btn btn-outline-primary w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#modalSLAIcon">
+          + Tambah Laporan
+        </button>
+      </div>
+
     </div>
+  </form>
 
-    <div class="col-md-2">
-      <input type="date" class="form-control form-control-lg"
-             id="startDate">
-    </div>
-
-    <div class="col-md-2">
-      <input type="date" class="form-control form-control-lg"
-             id="endDate">
-    </div>
-
-    <div class="col-md-4 d-flex gap-2">
-      <button class="btn btn-primary w-100" id="btnSearch">
-        Cari Laporan
-      </button>
-
-      <button class="btn btn-outline-primary w-100"
-              data-bs-toggle="modal"
-              data-bs-target="#modalSLAIcon">
-        + Tambah Laporan
-      </button>
-    </div>
-
-  </div>
 </div>
  
-<div class="card laporan-card mt-4" id="emptyState">
-  <div class="empty-state text-center py-5">
-    <h5 class="fw-semibold">Data tidak ditemukan</h5>
-    <p class="text-muted mb-0">
-      Silakan cari laporan atau tambahkan laporan baru
-    </p>
-  </div>
-</div>
+<?php if(isset($_GET['cari'])): ?>
+
+  <?php if($resultData && mysqli_num_rows($resultData) > 0): ?>
+
+    <!-- TABEL DATA -->
+    <div class="card mt-4 p-4 shadow-sm">
+      <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-bordered table-hover text-center align-middle">
+<thead class="table-primary">
+<tr>
+  <th>No</th>
+  <th>Periode</th>
+  <th>No BA</th>
+  <th>Tanggal</th>
+
+  <th>Internet JL</th>
+  <th>Internet JT</th>
+  <th>Internet TDG</th>
+  <th>Internet MTTR</th>
+  <th>Internet SLA</th>
+
+  <th>IPVPN JL</th>
+  <th>IPVPN JT</th>
+  <th>IPVPN TDG</th>
+  <th>IPVPN MTTR</th>
+  <th>IPVPN SLA</th>
+
+  <th>Metronet JL</th>
+  <th>Metronet JT</th>
+  <th>Metronet TDG</th>
+  <th>Metronet MTTR</th>
+  <th>Metronet SLA</th>
+
+  <th>Clear JL</th>
+  <th>Clear JT</th>
+  <th>Clear TDG</th>
+  <th>Clear MTTR</th>
+  <th>Clear SLA</th>
+
+  <th>VSAT JL</th>
+  <th>VSAT JT</th>
+  <th>VSAT TDG</th>
+  <th>VSAT MTTR</th>
+  <th>VSAT SLA</th>
+
+  <th>Internet VSAT JL</th>
+  <th>Internet VSAT JT</th>
+  <th>Internet VSAT TDG</th>
+  <th>Internet VSAT MTTR</th>
+  <th>Internet VSAT SLA</th>
+
+  <th>Core JL</th>
+  <th>Core JT</th>
+  <th>Core TDG</th>
+  <th>Core MTTR</th>
+  <th>Core SLA</th>
+
+  <th>Sumut1 NS JL</th>
+  <th>Sumut1 NS JT</th>
+  <th>Sumut1 NS TDG</th>
+  <th>Sumut1 NS MTTR</th>
+  <th>Sumut1 NS SLA</th>
+
+  <th>Sumut1 SN JL</th>
+  <th>Sumut1 SN JT</th>
+  <th>Sumut1 SN TDG</th>
+  <th>Sumut1 SN MTTR</th>
+  <th>Sumut1 SN SLA</th>
+
+  <th>Sumut2 NS JL</th>
+  <th>Sumut2 NS JT</th>
+  <th>Sumut2 NS TDG</th>
+  <th>Sumut2 NS MTTR</th>
+  <th>Sumut2 NS SLA</th>
+
+  <th>Sumut2 SN JL</th>
+  <th>Sumut2 SN JT</th>
+  <th>Sumut2 SN TDG</th>
+  <th>Sumut2 SN MTTR</th>
+  <th>Sumut2 SN SLA</th>
+
+  <th>File</th>
+</tr>
+</thead>
+          <tbody>
+
+          <?php 
+          $no = 1;
+          while($row = mysqli_fetch_assoc($resultData)): 
+          ?>
+
+<tr>
+<td><?= $no++; ?></td>
+<td><?= $row['periode_bulan']."/".$row['tahun']; ?></td>
+<td><?= $row['no_ba']; ?></td>
+<td><?= $row['tanggal_ba']; ?></td>
+
+<td><?= $row['internet_jl']; ?></td>
+<td><?= $row['internet_jt']; ?></td>
+<td><?= $row['internet_tdg']; ?></td>
+<td><?= $row['internet_p_mttr']; ?></td>
+<td><?= $row['internet_p_sla']; ?>%</td>
+
+<td><?= $row['ipvpn_jl']; ?></td>
+<td><?= $row['ipvpn_jt']; ?></td>
+<td><?= $row['ipvpn_tdg']; ?></td>
+<td><?= $row['ipvpn_p_mttr']; ?></td>
+<td><?= $row['ipvpn_p_sla']; ?>%</td>
+
+<td><?= $row['metronet_jl']; ?></td>
+<td><?= $row['metronet_jt']; ?></td>
+<td><?= $row['metronet_tdg']; ?></td>
+<td><?= $row['metronet_p_mttr']; ?></td>
+<td><?= $row['metronet_p_sla']; ?>%</td>
+
+<td><?= $row['clear_channel_jl']; ?></td>
+<td><?= $row['clear_channel_jt']; ?></td>
+<td><?= $row['clear_channel_tdg']; ?></td>
+<td><?= $row['clear_channel_p_mttr']; ?></td>
+<td><?= $row['clear_channel_p_sla']; ?>%</td>
+
+<td><?= $row['vsat_ip_jl']; ?></td>
+<td><?= $row['vsat_ip_jt']; ?></td>
+<td><?= $row['vsat_ip_tdg']; ?></td>
+<td><?= $row['vsat_ip_p_mttr']; ?></td>
+<td><?= $row['vsat_ip_p_sla']; ?>%</td>
+
+<td><?= $row['internet_vsat_jl']; ?></td>
+<td><?= $row['internet_vsat_jt']; ?></td>
+<td><?= $row['internet_vsat_tdg']; ?></td>
+<td><?= $row['internet_vsat_p_mttr']; ?></td>
+<td><?= $row['internet_vsat_p_sla']; ?>%</td>
+
+<td><?= $row['core_jl']; ?></td>
+<td><?= $row['core_jt']; ?></td>
+<td><?= $row['core_tdg']; ?></td>
+<td><?= $row['core_p_mttr']; ?></td>
+<td><?= $row['core_p_sla']; ?>%</td>
+
+<td><?= $row['sumut1_ns_jl']; ?></td>
+<td><?= $row['sumut1_ns_jt']; ?></td>
+<td><?= $row['sumut1_ns_tdg']; ?></td>
+<td><?= $row['sumut1_ns_p_mttr']; ?></td>
+<td><?= $row['sumut1_ns_p_sla']; ?>%</td>
+
+<td><?= $row['sumut1_sn_jl']; ?></td>
+<td><?= $row['sumut1_sn_jt']; ?></td>
+<td><?= $row['sumut1_sn_tdg']; ?></td>
+<td><?= $row['sumut1_sn_p_mttr']; ?></td>
+<td><?= $row['sumut1_sn_p_sla']; ?>%</td>
+
+<td><?= $row['sumut2_ns_jl']; ?></td>
+<td><?= $row['sumut2_ns_jt']; ?></td>
+<td><?= $row['sumut2_ns_tdg']; ?></td>
+<td><?= $row['sumut2_ns_p_mttr']; ?></td>
+<td><?= $row['sumut2_ns_p_sla']; ?>%</td>
+
+<td><?= $row['sumut2_sn_jl']; ?></td>
+<td><?= $row['sumut2_sn_jt']; ?></td>
+<td><?= $row['sumut2_sn_tdg']; ?></td>
+<td><?= $row['sumut2_sn_p_mttr']; ?></td>
+<td><?= $row['sumut2_sn_p_sla']; ?>%</td>
+
+<td>
+<a href="upload/<?= $row['upload_ba']; ?>" 
+   target="_blank" 
+   class="btn btn-sm btn-success">
+PDF
+</a>
+</td>
+</tr>
+
+          <?php endwhile; ?>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <?php else: ?>
+
+    <!-- DATA TIDAK DITEMUKAN -->
+    <div class="card laporan-card mt-4">
+      <div class="empty-state text-center py-5">
+        <h5 class="fw-semibold">Data tidak ditemukan</h5>
+        <p class="text-muted mb-0">
+          Silakan cari laporan atau tambahkan laporan baru
+        </p>
+      </div>
+    </div>
+
+  <?php endif; ?>
+
+<?php endif; ?>
   
 <form method="POST" enctype="multipart/form-data">
 <div class="modal fade" id="modalSLAIcon" tabindex="-1" aria-hidden="true">
@@ -762,6 +976,9 @@ window.history.replaceState(null, null, window.location.pathname);
           Simpan Laporan
         </button>
       </div>
+</div>
+</div>
+</div>
   </form>
 
     </main>
