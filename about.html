@@ -79,7 +79,7 @@
     <div class="card laporan-card mb-4">
       <div class="row g-3 align-items-center">
         <div class="col-md-8">
-          <input type="text" class="form-control form-control-lg"
+          <input type="text" id="searchBA"class="form-control form-control-lg"
                  placeholder="Cari nomor BA...">
         </div>
 
@@ -93,22 +93,24 @@
              id="endDate">
     </div>
         <div class="col-md-4 d-flex gap-2">
-          <button class="btn btn-outline-primary w-100">
+          <button type="button" id="btnCari" class="btn btn-outline-primary w-100">
             Cari Laporan
           </button>
           <button class="btn btn-primary w-100"
                   data-bs-toggle="modal"
-                  data-bs-target="#modalLaporan">
+                  data-bs-target="#modalOffice365">
              + Tambah Laporan
           </button>
         </div>
       </div>
     </div>   
     <div class="card laporan-card">
+      <div id="hasilContainer">
       <div class="empty-state">
         <h5>Data tidak ditemukan</h5>
         <p>Silakan cari laporan atau tambahkan laporan baru</p>
       </div>
+    </div>
       <!-- Contoh jika data ADA -->
       <!-- 
       <div class="row">
@@ -145,7 +147,7 @@
             <div class="col-md-6">
   <label class="form-label-pln">Periode Bulan</label>
   <div class="select-wrapper">
-    <select class="form-select form-select-sm">
+    <select id="periode" class="form-select form-select-sm" required>
       <option value="" disabled selected>Silakan pilih bulan</option>
       <option value="01">Januari</option>
       <option value="02">Februari</option>
@@ -166,46 +168,46 @@
 
             <div class="col-md-6">
               <label class="form-label-pln">Tahun</label>
-              <input type="number" class="form-control input-pln" value="2026">
+              <input type="number" id="tahun"class="form-control input-pln" value="2026" required>
             </div>
 
             
             <div class="col-12">
               <label class="form-label-pln">Nomor Berita Acara (BA)</label>
-              <input type="text" class="form-control input-pln">
+              <input type="text" id="nomorBA" class="form-control input-pln" required>
             </div>
 
             
             <div class="col-12">
               <label class="form-label-pln">Tanggal BA</label>
-              <input type="date" class="form-control input-pln">
+              <input type="date" id="tanggalBA" class="form-control input-pln" required>
             </div>
 
     
             <div class="col-md-6">
               <label class="form-label-pln">E1</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" id="e1" class="form-control input-pln" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">E3</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" id="e3" class="form-control input-pln" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">E5</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" id="e5" class="form-control input-pln" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label-pln">Core CAL Bridge</label>
-              <input type="number" class="form-control input-pln">
+              <input type="number" id="coreCal" class="form-control input-pln" required>
             </div>
         
           <div class="col-12">
   <label class="form-label-pln">Unit</label>
   <div class="select-wrapper">
-    <select class="form-select form-select-sm">
+    <select id="unit"class="form-select form-select-sm" required>
       <option value="" disabled selected>Silakan pilih unit</option>
       <option>UID SUMUT</option>
       <option>UIP SUMBAGUT</option>
@@ -214,22 +216,24 @@
   </div>
 </div>
 
-             <div class="row g-3 mt-2">
+<div class="row g-3 mt-2">
   <div class="col-md-6">
     <label class="form-label pln">Total Tagihan</label>
     <div class="input-group">
       <span class="input-group-text">Rp</span>
       <input type="text"
+              id="totalTagihan"
              class="form-control pln-input text-end"
              placeholder="0"
-             inputmode="numeric">
+             inputmode="numeric" required>
     </div>
   </div>
+</div>
 
                         
             <div class="col-12 text-center">
               <label class="upload-box">
-                <input type="file" hidden accept=".pdf">
+                <input type="file" id="fileBA" hidden accept=".pdf">
                 <i class="bi bi-upload"></i>
                 <div>Upload BA (PDF)</div>
                 <small>Maks. 5MB</small>
@@ -250,10 +254,12 @@
   </div>
 </div>
 
+<div class="col-12">
+  <div id="formMessage" class="text-center mt-2"></div>
+</div>
+
   
 </section>
-
-
 
    
   <footer id="footer" class="footer light-background">
@@ -335,7 +341,13 @@
   
   <script src="assets/js/main.js"></script>
   <script src="assets/js/lisensi.js"></script>
-  
+  <script src="assets/js/carioffice.js"></script>
+
+
+  <script src="assets/js/validasi.js"></script>
+<script>
+  requireLogin();
+</script>
 
 </body>
 

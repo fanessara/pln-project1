@@ -104,16 +104,18 @@
 
             <h2 class="login-title">Masuk</h2>
 
-            <form>
+            <form id="loginForm">
               <div class="input-group">
-                <input type="text" required />
+                <input type="text" id="username" required />
                 <label>Username</label>
               </div>
 
               <div class="input-group">
-                <input type="password" required />
+                <input type="password" id="password" required />
                 <label>Password</label>
               </div>
+
+              <div id="loginError"></div>
 
               <button type="submit" class="login-btn">Login</button>
             </form>

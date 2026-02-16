@@ -2499,6 +2499,7 @@ logo:hover .sitename {
 .login-overlay.active {
   opacity: 1;
   pointer-events: auto;
+  display: flex;
 }
 
 /* LOGIN BOX */
