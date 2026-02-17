@@ -70,53 +70,6 @@ if (!isset($_SESSION['login'])) {
       </div>
     </div>
 
-    <section id="portfolio" class="portfolio section">
-      <section class="statistik-container">
-
-    <h2 class="page-title">Statistik Laporan</h2>
-
-    <!-- KPI BOX -->
-    <div class="kpi-grid">
-        <div class="kpi-card total">
-            <h3>Total Laporan</h3>
-            <p>-</p>
-        </div>
-
-        <div class="kpi-card success">
-            <h3></h3>
-            <p>-</p>
-        </div>
-
-        <div class="kpi-card warning">
-            <h3>-</h3>
-            <p>-</p>
-        </div>
-
-        <div class="kpi-card danger">
-            <h3>-</h3>
-            <p>-</p>
-        </div>
-    </div>
-
-    <!-- GRAFIK -->
-    <div class="chart-grid">
-        <div class="chart-card">
-            <h3>Laporan per Layanan</h3>
-            <canvas id="layananChart"></canvas>
-        </div>
-
-        <div class="chart-card">
-            <h3>-</h3>
-            <canvas id="slaChart"></canvas>
-        </div>
-    </div>
-
-    <!-- TREND BULANAN -->
-    <div class="chart-card full-width">
-        <h3>Trend Laporan Pertahun</h3>
-        <canvas id="trendChart"></canvas>
-    </div>
-
 </section>     
     </section>
   </main>

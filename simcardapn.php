@@ -181,7 +181,7 @@ if (isset($_GET['cari'])) {
              <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
                   <li><a href="simcardapn.php" class="active">SimCard APN</a></li>
-                  <li><a href="#">Layanan Network</a></li>
+                  <!-- <li><a href="#">Layanan Network</a></li> -->
                 </ul>
             <li><a href="services.php">Layanan PLN Icon+</a></li>
             <li><a href="portfolio.php">Statistik Laporan Icon+</a></li>
@@ -364,18 +364,18 @@ if (isset($_GET['cari'])) {
             <label class="form-label pln-label">Periode Bulan</label>
             <select class="form-select pln-input" name="periode_bulan">
               <option selected disabled>Pilih bulan</option>
-              <option value="1">Januari</option>
-              <option value="2">Februari</option>
-              <option value="3">Maret</option>
-              <option value="4">April</option>
-              <option value="5">Mei</option>
-              <option value="6">Juni</option>
-              <option value="7">Juli</option>
-              <option value="8">Agustus</option>
-              <option value="9">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
+              <option value="Januari">Januari</option>
+              <option value="Februari">Februari</option>
+              <option value="Maret">Maret</option>
+              <option value="April">April</option>
+              <option value="Mei">Mei</option>
+              <option value="Juni">Juni</option>
+              <option value="Juli">Juli</option>
+              <option value="Agustus">Agustus</option>
+              <option value="September">September</option>
+              <option value="Oktober">Oktober</option>
+              <option value="November">November</option>
+              <option value="Desember">Desember</option>
             </select>
           </div>
 

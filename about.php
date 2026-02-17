@@ -166,7 +166,6 @@ window.history.replaceState(null, null, window.location.pathname);
            <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
                   <li><a href="simcardapn.php">SimCard APN</a></li>
-                  <li><a href="#">Layanan Network</a></li>
                 </ul>
            </li>
           <li><a href="services.php">Layanan PLN Icon+ </a></li>

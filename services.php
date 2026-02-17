@@ -129,13 +129,31 @@ if (isset($_POST['submit'])) {
         echo "<script>alert('File wajib diupload!');window.history.back();</script>";
         exit();
     }
+    
+    // ===============================
+    // HITUNG TOTAL STI SUMUT
+    // ===============================
+
+    // NON SCADA
+    $total_sti_sumut_ns_jt     = $sumut1_ns_jt + $sumut2_ns_jt;
+    $total_sti_sumut_ns_tdg    = $sumut1_ns_tdg + $sumut2_ns_tdg;
+    $total_sti_sumut_ns_p_mttr = $total_sti_sumut_ns_tdg / $total_sti_sumut_ns_jt;
+    $total_sti_sumut_ns_p_sla = round((($sumut1_ns_p_sla + $sumut2_ns_p_sla) / 2), 2);
+
+
+    // SCADA NON REDUNDANT
+    $total_sti_sumut_sn_jt     = $sumut1_sn_jt + $sumut2_sn_jt;
+    $total_sti_sumut_sn_tdg    = $sumut1_sn_tdg + $sumut2_sn_tdg;
+    $total_sti_sumut_sn_p_mttr = $total_sti_sumut_sn_tdg / $total_sti_sumut_sn_jt ;
+    $total_sti_sumut_sn_p_sla  = round((($sumut1_sn_p_sla + $sumut2_sn_p_sla) / 2), 2);
 
     // ===============================
     // INSERT DATABASE
     // ===============================
 
-    $query = "INSERT INTO data (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jl, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jl, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jl, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jl, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba) VALUES 
-    ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jl', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jl', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jl', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jl', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$nama_baru')";
+    $query = "INSERT INTO data (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba, total_sti_sumut_ns_jt, total_sti_sumut_ns_tdg, total_sti_sumut_ns_p_mttr, total_sti_sumut_ns_p_sla, total_sti_sumut_sn_jt, total_sti_sumut_sn_tdg, total_sti_sumut_sn_p_mttr, total_sti_sumut_sn_p_sla) VALUES 
+    ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$nama_baru','$total_sti_sumut_ns_jt', '$total_sti_sumut_ns_tdg', '$total_sti_sumut_ns_p_mttr', '$total_sti_sumut_ns_p_sla', '$total_sti_sumut_sn_jt', '$total_sti_sumut_sn_tdg', '$total_sti_sumut_sn_p_mttr', '$total_sti_sumut_sn_p_sla'
+)";
     if (mysqli_query($conn, $query)) {
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
         exit();
@@ -335,71 +353,83 @@ window.history.replaceState(null, null, window.location.pathname);
 <th>No BA</th>
 <th>Tanggal</th>
 
-<th>Internet JL</th>
-<th>Internet JT</th>
-<th>Internet TDG</th>
-<th>Internet MTTR</th>
-<th>Internet SLA</th>
+<th>Internet Jumlah Layanan</th>
+<th>Internet Jumlah Tiket</th>
+<th>Internet Total Durasi Gangguan (Menit)/th>
+<th>Internet Pencapaian MTTR (Menit)</th>
+<th>Internet Pencapaian SLA (%)</th>
 
-<th>IPVPN JL</th>
-<th>IPVPN JT</th>
-<th>IPVPN TDG</th>
-<th>IPVPN MTTR</th>
-<th>IPVPN SLA</th>
+<th>IPVPN Jumlah Layanan</th>
+<th>IPVPN Jumlah Tiket</th>
+<th>IPVPN Total Durasi Gangguan (Menit)</th>
+<th>IPVPN Pencapaian MTTR (Menit)</th>
+<th>IPVPN Pencapaian SLA (%)</th>
 
-<th>Metronet JL</th>
-<th>Metronet JT</th>
-<th>Metronet TDG</th>
-<th>Metronet MTTR</th>
-<th>Metronet SLA</th>
+<th>Metronet Jumlah Layanan</th>
+<th>Metronet Jumlah Tiket</th>
+<th>Metronet Total Durasi Gangguan (Menit)</th>
+<th>Metronet Pencapaian MTTR (Menit)</th>
+<th>Metronet Pencapaian SLA (%)</th>
 
-<th>Clear JL</th>
-<th>Clear JT</th>
-<th>Clear TDG</th>
-<th>Clear MTTR</th>
-<th>Clear SLA</th>
+<th>Clear Jumlah Layanan</th>
+<th>Clear Jumlah Tiket</th>
+<th>Clear Total Durasi Gangguan (Menit)</th>
+<th>Clear Pencapaian MTTR (Menit)</th>
+<th>Clear Pencapaian SLA (%)</th>
 
-<th>VSAT IP JL</th>
-<th>VSAT IP JT</th>
-<th>VSAT IP TDG</th>
-<th>VSAT IP MTTR</th>
-<th>VSAT IP SLA</th>
+<th>VSAT IP Jumlah Layanan</th>
+<th>VSAT IP Jumlah Tiket</th>
+<th>VSAT IP Total Durasi Gangguan (Menit)</th>
+<th>VSAT IP Pencapaian MTTR (Menit)</th>
+<th>VSAT IP Pencapaian SLA (%)</th>
 
-<th>Internet VSAT JL</th>
-<th>Internet VSAT JT</th>
-<th>Internet VSAT TDG</th>
-<th>Internet VSAT MTTR</th>
-<th>Internet VSAT SLA</th>
+<th>Internet VSAT Jumlah Layanan</th>
+<th>Internet VSAT Jumlah Tiket</th>
+<th>Internet VSAT Total Durasi Gangguan (Menit)</th>
+<th>Internet VSAT Pencapaian MTTR (Menit)</th>
+<th>Internet VSAT Pencapaian SLA (%)</th>
 
-<th>Core JL</th>
-<th>Core JT</th>
-<th>Core TDG</th>
-<th>Core MTTR</th>
-<th>Core SLA</th>
+<th>Core Jumlah Layanan</th>
+<th>Core Jumlah Tiket</th>
+<th>Core Total Durasi Gangguan (Menit)</th>
+<th>Core Pencapaian MTTR (Menit)</th>
+<th>Core Pencapaian SLA (%)</th>
 
-<th>Sumut1 NS JL</th>
-<th>Sumut1 NS JT</th>
-<th>Sumut1 NS TDG</th>
-<th>Sumut1 NS MTTR</th>
-<th>Sumut1 NS SLA</th>
+<th>Sumut1 Non Scada Jumlah Layanan</th>
+<th>Sumut1 Non Scada Jumlah Tiket</th>
+<th>Sumut1 Non Scada Total Durasi Gangguan (Menit)</th>
+<th>Sumut1 Non Scada Pencapaian MTTR (Menit)</th>
+<th>Sumut1 Non Scada Pencapaian SLA (%)</th>
 
-<th>Sumut1 SN JL</th>
-<th>Sumut1 SN JT</th>
-<th>Sumut1 SN TDG</th>
-<th>Sumut1 SN MTTR</th>
-<th>Sumut1 SN SLA</th>
+<th>Sumut1 Scada Non Redundant Jumlah Layanan</th>
+<th>Sumut1 Scada Non Redundant Jumlah Tiket</th>
+<th>Sumut1 Scada Non Redundant Total Durasi Gangguan (Menit)</th>
+<th>Sumut1 Scada Non Redundant Pencapaian MTTR (Menit)</th>
+<th>Sumut1 Scada Non Redundant Pencapaian SLA (%)</th>
 
-<th>Sumut2 NS JL</th>
-<th>Sumut2 NS JT</th>
-<th>Sumut2 NS TDG</th>
-<th>Sumut2 NS MTTR</th>
-<th>Sumut2 NS SLA</th>
+<th>Sumut2 Non Scada Jumlah Layanan</th>
+<th>Sumut2 Non Scada Jumlah Tiket</th>
+<th>Sumut2 Non Scada Total Durasi Gangguan (Menit)</th>
+<th>Sumut2 Non Scada Pencapaian MTTR (Menit)</th>
+<th>Sumut2 Non Scada Pencapaian SLA (%)</th>
 
-<th>Sumut2 SN JL</th>
-<th>Sumut2 SN JT</th>
-<th>Sumut2 SN TDG</th>
-<th>Sumut2 SN MTTR</th>
-<th>Sumut2 SN SLA</th>
+<th>Sumut2 Scada Non Redundant Jumlah Layanan</th>
+<th>Sumut2 Scada Non Redundant Jumlah Tiket</th>
+<th>Sumut2 Scada Non Redundant Total Durasi Gangguan (Menit)</th>
+<th>Sumut2 Scada Non Redundant Pencapaian MTTR (Menit)</th>
+<th>Sumut2 Scada Non Redundant Pencapaian SLA (%)</th>
+
+<th>Total Sti Sumut Non Scada Jumlah Layanan</th>
+<th>Total Sti Sumut Non Scada Jumlah Tiket</th>
+<th>Total Sti Sumut Non Scada Total Durasi Gangguan (Menit)</th>
+<th>Total Sti Sumut Non Scada Pencapaian MTTR (Menit)</th>
+<th>Total Sti Sumut Non Scada Pencapaian SLA (%)</th>
+
+<th>Total Sti Sumut Scada Non Redundant Jumlah Layanan</th>
+<th>Total Sti Sumut Scada Non Redundant Jumlah Tiket</th>
+<th>Total Sti Sumut Scada Non Redundant Total Durasi Gangguan (Menit)</th>
+<th>Total Sti Sumut Scada Non Redundant Pencapaian MTTR (Menit)</th>
+<th>Total Sti Sumut Scada Non Redundant Pencapaian SLA (%)</th>
 
 <th>File</th>
 </tr>
@@ -413,7 +443,7 @@ window.history.replaceState(null, null, window.location.pathname);
 
 <tr>
 <td><?= $no++; ?></td>
-<td><?= $row['periode_bulan']."/".$row['tahun']; ?></td>
+<td><?= $row['periode_bulan'] ?></td>
 <td><?= $row['no_ba']; ?></td>
 <td><?= $row['tanggal_ba']; ?></td>
 
@@ -459,29 +489,41 @@ window.history.replaceState(null, null, window.location.pathname);
 <td><?= $row['core_p_mttr']; ?></td>
 <td><?= $row['core_p_sla']; ?>%</td>
 
-<td><?= $row['sumut1_ns_jl']; ?></td>
+<td>NON SCADA</td>
 <td><?= $row['sumut1_ns_jt']; ?></td>
 <td><?= $row['sumut1_ns_tdg']; ?></td>
 <td><?= $row['sumut1_ns_p_mttr']; ?></td>
 <td><?= $row['sumut1_ns_p_sla']; ?>%</td>
 
-<td><?= $row['sumut1_sn_jl']; ?></td>
+<td>SCADA NON REDUNDANT</td>
 <td><?= $row['sumut1_sn_jt']; ?></td>
 <td><?= $row['sumut1_sn_tdg']; ?></td>
 <td><?= $row['sumut1_sn_p_mttr']; ?></td>
 <td><?= $row['sumut1_sn_p_sla']; ?>%</td>
 
-<td><?= $row['sumut2_ns_jl']; ?></td>
+<td>NON SCADA</td>
 <td><?= $row['sumut2_ns_jt']; ?></td>
 <td><?= $row['sumut2_ns_tdg']; ?></td>
 <td><?= $row['sumut2_ns_p_mttr']; ?></td>
 <td><?= $row['sumut2_ns_p_sla']; ?>%</td>
 
-<td><?= $row['sumut2_sn_jl']; ?></td>
+<td>SCADA NON REDUNDANT</td>
 <td><?= $row['sumut2_sn_jt']; ?></td>
 <td><?= $row['sumut2_sn_tdg']; ?></td>
 <td><?= $row['sumut2_sn_p_mttr']; ?></td>
 <td><?= $row['sumut2_sn_p_sla']; ?>%</td>
+
+<td>NON SCADA</td>
+<td><?= $row['total_sti_sumut_ns_jt']; ?></td>
+<td><?= $row['total_sti_sumut_ns_tdg']; ?></td>
+<td><?= $row['total_sti_sumut_ns_p_mttr']; ?></td>
+<td><?= $row['total_sti_sumut_ns_p_sla']; ?>%</td>
+
+<td>SCADA NON REDUNDANT</td>
+<td><?= $row['total_sti_sumut_sn_jt']; ?></td>
+<td><?= $row['total_sti_sumut_sn_tdg']; ?></td>
+<td><?= $row['total_sti_sumut_sn_p_mttr']; ?></td>
+<td><?= $row['total_sti_sumut_sn_p_sla']; ?>%</td>
 
 <td>
 <a href="upload/<?= $row['upload_ba']; ?>" target="_blank" class="btn btn-success btn-sm">
@@ -511,13 +553,6 @@ Lihat PDF
 </div>
 
 <?php endif; ?>
-  <div class="empty-state text-center py-5">
-    <h5 class="fw-semibold">Data tidak ditemukan</h5>
-    <p class="text-muted mb-0">
-      Silakan cari laporan atau tambahkan laporan baru
-    </p>
-  </div>
-</div>
   
 <form method="POST" enctype="multipart/form-data">
 <div class="modal fade" id="modalSLAIcon" tabindex="-1" aria-hidden="true">
@@ -543,18 +578,18 @@ Lihat PDF
             <label class="form-label pln-label">Periode Bulan</label>
             <select class="form-select pln-input" name="periode_bulan">
               <option selected disabled>Pilih bulan</option>
-              <option value="1">Januari</option>
-              <option value="2">Februari</option>
-              <option value="3">Maret</option>
-              <option value="4">April</option>
-              <option value="5">Mei</option>
-              <option value="6">Juni</option>
-              <option value="7">Juli</option>
-              <option value="8">Agustus</option>
-              <option value="9">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
+              <option value="Januari">Januari</option>
+              <option value="Februari">Februari</option>
+              <option value="Maret">Maret</option>
+              <option value="April">April</option>
+              <option value="Mei">Mei</option>
+              <option value="Juni">Juni</option>
+              <option value="Juli">Juli</option>
+              <option value="Agustus">Agustus</option>
+              <option value="September">September</option>
+              <option value="Oktober">Oktober</option>
+              <option value="November">November</option>
+              <option value="Desember">Desember</option>
             </select>
           </div>
 
@@ -597,7 +632,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="internet_p_mttr">
+            <input type="number" class="form-control pln-input"  step="0.01" name="internet_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -625,11 +660,11 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="ipvpn_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="ipvpn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
-            <input type="number" step="0.01"class="form-control pln-input" name="ipvpn_p_sla">
+            <input type="number" step="0.01" class="form-control pln-input" name="ipvpn_p_sla">
           </div>
         </div>
 
@@ -653,7 +688,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="metronet_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="metronet_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -681,7 +716,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="clear_channel_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="clear_channel_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -709,7 +744,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="vsat_ip_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="vsat_ip_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -737,7 +772,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="internet_vsat_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="internet_vsat_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -765,7 +800,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="core_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="core_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -773,7 +808,7 @@ Lihat PDF
           </div>
         </div>
         <div class="row g-3 mt-2">
-  <div class="col-md-6">
+  <!-- <div class="col-md-6">
     <label class="form-label pln-label">Total</label>
     <div class="input-group">
       <input type="text"
@@ -781,7 +816,7 @@ Lihat PDF
              placeholder="0"
              inputmode="numeric">
     </div>
-  </div>
+  </div> -->
 
   <div class="provider-section">
   <div class="provider-title">
@@ -792,7 +827,7 @@ Lihat PDF
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="NON SCADA" name="sumut1_ns_jl">
+            <input type="text" class="form-control pln-input" value="NON SCADA">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
@@ -804,7 +839,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="sumut1_ns_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="sumut1_ns_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -821,7 +856,7 @@ Lihat PDF
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT" name="sumut1_sn_jl">
+            <input type="text" class="form-control pln-input" value="SCADA NON REDUDANT">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
@@ -833,7 +868,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="sumut1_sn_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="sumut1_sn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -849,7 +884,7 @@ Lihat PDF
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="NON SCADA" name="sumut2_ns_jl">
+            <input type="text" class="form-control pln-input" value="NON SCADA">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
@@ -861,7 +896,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="sumut2_ns_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="sumut2_ns_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -877,7 +912,7 @@ Lihat PDF
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Layanan</label>
-            <input type="text" class="form-control pln-input" placeholder="SCADA NON REDUDANT" name="sumut2_sn_jl">
+            <input type="text" class="form-control pln-input" value="SCADA NON REDUDANT">
           </div>
           <div class="col-md-3">
             <label class="form-label pln-label">Jumlah Tiket</label>
@@ -889,7 +924,7 @@ Lihat PDF
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian MTTR (Menit)</label>
-            <input type="number" class="form-control pln-input" name="sumut2_sn_p_mttr">
+            <input type="number"  step="0.01" class="form-control pln-input" name="sumut2_sn_p_mttr">
           </div>
            <div class="col-md-3">
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
@@ -897,7 +932,7 @@ Lihat PDF
           </div>
         </div>      
 
-        <div class="provider-section">
+        <!-- <div class="provider-section">
   <div class="provider-title">
     TOTAL STI SUMUT
   </div>
@@ -951,7 +986,7 @@ Lihat PDF
             <label class="form-label pln-label">Pencapaian SLA (%)</label>
             <input type="number" step="0.01"class="form-control pln-input">
           </div>
-        </div>      
+        </div>       -->
 
 
 
