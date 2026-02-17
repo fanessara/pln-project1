@@ -23,6 +23,7 @@ if (isset($_POST['submit'])) {
     $e3     = $_POST['e3'];
     $e5     = $_POST['e5'];
     $core_call_bridge = $_POST['core_cal_bridge'];
+    $total     = $_POST['total'];
     $unit   = $_POST['unit'];
 
     // ===============================
@@ -73,9 +74,9 @@ if (isset($_POST['submit'])) {
     // ===============================
 
     $query = "INSERT INTO user 
-        (periode_bulan, tahun, no_ba, tanggal_ba, e1, e3, e5, core_cal_bridge, unit, upload_ba)
+        (periode_bulan, tahun, no_ba, tanggal_ba, e1, e3, e5, core_cal_bridge, unit, total, upload_ba)
         VALUES 
-        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$e1', '$e3', '$e5', '$core_call_bridge', '$unit', '$nama_baru')";
+        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$e1', '$e3', '$e5', '$core_call_bridge', '$unit','$total' , '$nama_baru')";
 
     if (mysqli_query($conn, $query)) {
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
@@ -264,6 +265,7 @@ window.history.replaceState(null, null, window.location.pathname);
               <th>E5</th>
               <th>Core CAL</th>
               <th>Unit</th>
+              <th>Total+PPN 11%</th>
               <th>File BA</th>
             </tr>
           </thead>
@@ -288,6 +290,7 @@ window.history.replaceState(null, null, window.location.pathname);
               <td><?= $row['core_cal_bridge']; ?></td>
           
               <td><?= $row['unit']; ?></td>
+              <td><?= number_format($row['total'], 0, ',', '.'); ?></td>
           
               <td>
                 <a href="upload/<?= $row['upload_ba']; ?>" 
@@ -348,18 +351,18 @@ window.history.replaceState(null, null, window.location.pathname);
   <div class="select-wrapper">
     <select class="form-select form-select-sm" name="periode_bulan">
       <option value="" disabled selected>Silakan pilih bulan</option>
-      <option value="01">Januari</option>
-      <option value="02">Februari</option>
-      <option value="03">Maret</option>
-      <option value="04">April</option>
-      <option value="05">Mei</option>
-      <option value="06">Juni</option>
-      <option value="07">Juli</option>
-      <option value="08">Agustus</option>
-      <option value="09">September</option>
-      <option value="10">Oktober</option>
-      <option value="11">November</option>
-      <option value="12">Desember</option>
+      <option value="Januari">Januari</option>
+      <option value="Februari">Februari</option>
+      <option value="Maret">Maret</option>
+      <option value="April">April</option>
+      <option value="Mei">Mei</option>
+      <option value="Juni">Juni</option>
+      <option value="Juli">Juli</option>
+      <option value="Agustus">Agustus</option>
+      <option value="September">September</option>
+      <option value="Oktober">Oktober</option>
+      <option value="November">November</option>
+      <option value="Desember">Desember</option>
     </select>
     <span class="select-arrow"></span>
   </div>
@@ -367,7 +370,7 @@ window.history.replaceState(null, null, window.location.pathname);
 
             <div class="col-md-6">
               <label class="form-label-pln">Tahun</label>
-              <input type="number" class="form-control input-pln" value="2026">
+              <input type="number" class="form-control input-pln" name="tahun" value="2026">
             </div>
 
             
@@ -423,7 +426,8 @@ window.history.replaceState(null, null, window.location.pathname);
       <input type="text"
              class="form-control pln-input text-end"
              placeholder="0"
-             inputmode="numeric">
+             inputmode="numeric"
+             name="total">
     </div>
   </div>
 
