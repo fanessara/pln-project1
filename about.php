@@ -368,7 +368,7 @@ window.history.replaceState(null, null, window.location.pathname);
 
             <div class="col-md-6">
               <label class="form-label-pln">Tahun</label>
-              <input type="year" class="form-control input-pln" placeholder="2026">
+              <input type="number" class="form-control input-pln" value="2026">
             </div>
 
             
