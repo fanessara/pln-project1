@@ -7,7 +7,131 @@ if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit();
 }
+
+/* ===============================
+   KONEKSI DATABASE
+================================= */
+include 'service/koneksi(office).php';
+include 'service/koneksi(layananplnicon).php';
+include 'service/koneksi(card).php';
+
+/* ===============================
+   AMBIL SEMUA TAHUN (3 TABEL)
+================================= */
+$listTahun = [];
+
+$resultOffice = mysqli_query($conn_office, "SELECT DISTINCT tahun FROM user");
+while($row = mysqli_fetch_assoc($resultOffice)){
+    $listTahun[] = $row['tahun'];
+}
+
+$resultIcon = mysqli_query($conn_icon, "SELECT DISTINCT tahun FROM data");
+while($row = mysqli_fetch_assoc($resultIcon)){
+    $listTahun[] = $row['tahun'];
+}
+
+$resultCard = mysqli_query($conn, "SELECT DISTINCT tahun FROM data");
+while($row = mysqli_fetch_assoc($resultCard)){
+    $listTahun[] = $row['tahun'];
+}
+
+$listTahun = array_unique($listTahun);
+rsort($listTahun);
+
+$tahunTerbaru = !empty($listTahun) ? $listTahun[0] : date('Y');
+$tahunDipilih = isset($_GET['tahun']) ? $_GET['tahun'] : $tahunTerbaru;
+
+/* ===============================
+   ARRAY BULAN
+================================= */
+$bulan = [
+    "Januari","Februari","Maret","April","Mei","Juni",
+    "Juli","Agustus","September","Oktober","November","Desember"
+];
+
+/* ===============================
+   GRAFIK OFFICE 365
+================================= */
+$dataOffice = [];
+
+$queryOffice = mysqli_query($conn_office, "
+    SELECT periode_bulan, SUM(total) as total_bulanan
+    FROM user
+    WHERE tahun = '$tahunDipilih'
+    GROUP BY periode_bulan
+");
+
+while ($row = mysqli_fetch_assoc($queryOffice)) {
+    $dataOffice[$row['periode_bulan']] = $row['total_bulanan'];
+}
+
+$total_office_chart = [];
+foreach ($bulan as $b) {
+    $total_office_chart[] = isset($dataOffice[$b]) ? (float)$dataOffice[$b] : null;
+}
+
+/* ===============================
+   GRAFIK ICON
+================================= */
+$data_ns = [];
+$data_sn = [];
+
+$queryIcon = mysqli_query($conn_icon, "
+    SELECT periode_bulan,
+           total_sti_sumut_ns_p_sla,
+           total_sti_sumut_sn_p_sla
+    FROM data
+    WHERE tahun = '$tahunDipilih'
+");
+
+while($row = mysqli_fetch_assoc($queryIcon)){
+    $data_ns[$row['periode_bulan']] = $row['total_sti_sumut_ns_p_sla'];
+    $data_sn[$row['periode_bulan']] = $row['total_sti_sumut_sn_p_sla'];
+}
+
+$chart_ns = [];
+$chart_sn = [];
+
+foreach($bulan as $b){
+    $chart_ns[] = isset($data_ns[$b]) ? (float)$data_ns[$b] : null;
+    $chart_sn[] = isset($data_sn[$b]) ? (float)$data_sn[$b] : null;
+}
+
+/* ===============================
+   GRAFIK SIMCARD
+================================= */
+$dataChart = [];
+
+$queryCard = mysqli_query($conn, "
+    SELECT 
+        periode_bulan,
+        SUM(total_telkomsel) as telkomsel,
+        SUM(total_xl) as xl,
+        SUM(total_indosat) as indosat
+    FROM data
+    WHERE tahun = '$tahunDipilih'
+    GROUP BY periode_bulan
+");
+
+while ($row = mysqli_fetch_assoc($queryCard)) {
+    $dataChart[$row['periode_bulan']] = [
+        'telkomsel' => $row['telkomsel'],
+        'xl' => $row['xl'],
+        'indosat' => $row['indosat']
+    ];
+}
+
+$telkomselData = [];
+$xlData = [];
+$indosatData = [];
+
+foreach ($bulan as $b) {
+    $telkomselData[] = isset($dataChart[$b]) ? (float)$dataChart[$b]['telkomsel'] : null;
+    $xlData[] = isset($dataChart[$b]) ? (float)$dataChart[$b]['xl'] : null;
+    $indosatData[] = isset($dataChart[$b]) ? (float)$dataChart[$b]['indosat'] : null;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,6 +196,75 @@ if (!isset($_SESSION['login'])) {
 
 </section>     
     </section>
+
+<div class="container my-4">
+  <form method="GET" class="d-flex justify-content-end align-items-center gap-2">
+    
+    <label class="fw-bold">Pilih Tahun:</label>
+    
+    <select name="tahun" class="form-select w-auto" onchange="this.form.submit()">
+      <?php foreach($listTahun as $t) { ?>
+        <option value="<?= $t; ?>" 
+          <?= ($tahunDipilih == $t) ? 'selected' : '' ?>>
+          <?= $t; ?>
+        </option>
+      <?php } ?>
+    </select>
+
+    <a href="portfolio.php" class="btn btn-secondary btn-sm">
+      Reset
+    </a>
+
+  </form>
+</div>
+
+
+
+
+
+<section class="container my-5">
+  <div class="row g-4 align-items-stretch">
+
+    <!-- Office 365 -->
+    <div class="col-lg-4 col-md-6 d-flex">
+      <div class="card shadow-sm w-100">
+        <div class="card-body">
+          <h5 class="text-center mb-3">
+            Grafik Total Tagihan Office 365 Tahun <?= $tahunDipilih ?>
+          </h5>
+          <canvas id="chartOffice365"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simcard APN -->
+    <div class="col-lg-4 col-md-6 d-flex">
+      <div class="card shadow-sm w-100">
+        <div class="card-body">
+          <h5 class="text-center mb-3">
+            Grafik Total Tagihan SIMCARD APN Tahun <?= $tahunDipilih ?>
+          </h5>
+          <canvas id="chartSimcard"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLN Icon+ -->
+    <div class="col-lg-4 col-md-12 d-flex">
+      <div class="card shadow-sm w-100">
+        <div class="card-body">
+          <h5 class="text-center mb-3">
+            Grafik Pencapaian SLA Total STI Sumut Tahun <?= $tahunDipilih ?>
+          </h5>
+          <canvas id="chartSLA"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
   </main>
 
   <footer id="footer" class="footer light-background">
@@ -150,6 +343,127 @@ if (!isset($_SESSION['login'])) {
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/js/main.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+// OFFICE
+const ctxOffice = document.getElementById('chartOffice365');
+
+new Chart(ctxOffice, {
+    type: 'line',
+    data: {
+        labels: <?= json_encode($bulan); ?>,
+        datasets: [{
+            label: 'Total Tagihan (Rp)',
+            data: <?= json_encode($total_office_chart); ?>,
+            borderWidth: 3,
+            tension: 0.3,
+            spanGaps: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// ICON
+const ctx = document.getElementById('chartSLA');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: <?= json_encode($bulan); ?>,
+        datasets: [
+            {
+                label: 'Non Scada',
+                data: <?= json_encode($chart_ns); ?>,
+                borderWidth: 3,
+                tension: 0.3,
+                spanGaps: true
+            },
+            {
+                label: 'Scada Non Redundant',
+                data: <?= json_encode($chart_sn); ?>,
+                borderWidth: 3,
+                tension: 0.3,
+                spanGaps: true
+            }
+        ]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+const ctxSimcard = document.getElementById('chartSimcard');
+
+new Chart(ctxSimcard, {
+    type: 'line',
+    data: {
+        labels: <?= json_encode($bulan); ?>,
+        datasets: [
+            {
+                label: 'Telkomsel',
+                data: <?= json_encode($telkomselData); ?>,
+                borderWidth: 3,
+                tension: 0.3,
+                spanGaps: true
+            },
+            {
+                label: 'XL',
+                data: <?= json_encode($xlData); ?>,
+                borderWidth: 3,
+                tension: 0.3,
+                spanGaps: true
+            },
+            {
+                label: 'Indosat',
+                data: <?= json_encode($indosatData); ?>,
+                borderWidth: 3,
+                tension: 0.3,
+                spanGaps: true
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.dataset.label + ': Rp ' +
+                               context.parsed.y.toLocaleString('id-ID');
+                    }
+                }
+            }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+</script>
+  
 </body>
 
 </html>

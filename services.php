@@ -154,11 +154,11 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO data (periode_bulan, tahun, no_ba, tanggal_ba, internet_jl, internet_jt, internet_tdg, internet_p_mttr, internet_p_sla, ipvpn_jl, ipvpn_jt, ipvpn_tdg, ipvpn_p_mttr, ipvpn_p_sla, metronet_jl, metronet_jt, metronet_tdg, metronet_p_mttr, metronet_p_sla, clear_channel_jl, clear_channel_jt, clear_channel_tdg, clear_channel_p_mttr, clear_channel_p_sla, vsat_ip_jl, vsat_ip_jt, vsat_ip_tdg, vsat_ip_p_mttr, vsat_ip_p_sla, internet_vsat_jl, internet_vsat_jt, internet_vsat_tdg, internet_vsat_p_mttr, internet_vsat_p_sla, core_jl, core_jt, core_tdg, core_p_mttr, core_p_sla, sumut1_ns_jt, sumut1_ns_tdg, sumut1_ns_p_mttr, sumut1_ns_p_sla, sumut1_sn_jt, sumut1_sn_tdg, sumut1_sn_p_mttr, sumut1_sn_p_sla, sumut2_ns_jt, sumut2_ns_tdg, sumut2_ns_p_mttr, sumut2_ns_p_sla, sumut2_sn_jt, sumut2_sn_tdg, sumut2_sn_p_mttr, sumut2_sn_p_sla, upload_ba, total_sti_sumut_ns_jt, total_sti_sumut_ns_tdg, total_sti_sumut_ns_p_mttr, total_sti_sumut_ns_p_sla, total_sti_sumut_sn_jt, total_sti_sumut_sn_tdg, total_sti_sumut_sn_p_mttr, total_sti_sumut_sn_p_sla) VALUES 
     ('$periode_bulan', '$tahun', '$no_ba', '$tanggal_ba', '$internet_jl', '$internet_jt', '$internet_tdg', '$internet_p_mttr', '$internet_p_sla', '$ipvpn_jl', '$ipvpn_jt', '$ipvpn_tdg', '$ipvpn_p_mttr', '$ipvpn_p_sla', '$metronet_jl', '$metronet_jt', '$metronet_tdg', '$metronet_p_mttr', '$metronet_p_sla', '$clear_channel_jl', '$clear_channel_jt', '$clear_channel_tdg', '$clear_channel_p_mttr', '$clear_channel_p_sla', '$vsat_ip_jl', '$vsat_ip_jt', '$vsat_ip_tdg', '$vsat_ip_p_mttr', '$vsat_ip_p_sla', '$internet_vsat_jl', '$internet_vsat_jt', '$internet_vsat_tdg', '$internet_vsat_p_mttr', '$internet_vsat_p_sla', '$core_jl', '$core_jt', '$core_tdg', '$core_p_mttr', '$core_p_sla', '$sumut1_ns_jt', '$sumut1_ns_tdg', '$sumut1_ns_p_mttr', '$sumut1_ns_p_sla', '$sumut1_sn_jt', '$sumut1_sn_tdg', '$sumut1_sn_p_mttr', '$sumut1_sn_p_sla', '$sumut2_ns_jt', '$sumut2_ns_tdg', '$sumut2_ns_p_mttr', '$sumut2_ns_p_sla', '$sumut2_sn_jt', '$sumut2_sn_tdg', '$sumut2_sn_p_mttr', '$sumut2_sn_p_sla', '$nama_baru','$total_sti_sumut_ns_jt', '$total_sti_sumut_ns_tdg', '$total_sti_sumut_ns_p_mttr', '$total_sti_sumut_ns_p_sla', '$total_sti_sumut_sn_jt', '$total_sti_sumut_sn_tdg', '$total_sti_sumut_sn_p_mttr', '$total_sti_sumut_sn_p_sla'
 )";
-    if (mysqli_query($conn, $query)) {
+    if (mysqli_query($conn_icon, $query)) {
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
         exit();
     } else {
-        echo "Gagal menyimpan ke database: " . mysqli_error($conn);
+        echo "Gagal menyimpan ke database: " . mysqli_error($conn_icon);
     }
 }
 
@@ -181,14 +181,14 @@ if (isset($_GET['cari'])) {
 
     } else {
 
-        $search = mysqli_real_escape_string($conn, $search);
+        $search = mysqli_real_escape_string($conn_icon, $search);
 
         $queryData = "SELECT * FROM data 
                       WHERE no_ba LIKE '%$search%' 
                       AND tanggal_ba BETWEEN '$start' AND '$end'
                       ORDER BY id DESC";
 
-        $resultData = mysqli_query($conn, $queryData);
+        $resultData = mysqli_query($conn_icon, $queryData);
     }
 }
 ?>

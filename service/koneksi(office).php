@@ -4,9 +4,9 @@ $user = "root";
 $pass = "";
 $db   = "data_laporan_office_365";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn_office = mysqli_connect($host, $user, $pass, $db);
 
-if (!$conn) {
+if (!$conn_office) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 

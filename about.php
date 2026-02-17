@@ -78,11 +78,11 @@ if (isset($_POST['submit'])) {
         VALUES 
         ('$bulan', '$tahun', '$no_ba', '$tanggal', '$e1', '$e3', '$e5', '$core_call_bridge', '$unit','$total' , '$nama_baru')";
 
-    if (mysqli_query($conn, $query)) {
+    if (mysqli_query($conn_office, $query)) {
         header("Location: ".$_SERVER['PHP_SELF']."?success=1");
         exit();
     } else {
-        echo "Gagal menyimpan ke database: " . mysqli_error($conn);
+        echo "Gagal menyimpan ke database: " . mysqli_error($conn_office);
     }
 }
 
@@ -100,13 +100,13 @@ if (isset($_GET['cari'])) {
         $errorSearch = "Nomor BA tidak boleh kosong!";
     } else {
 
-        $search = mysqli_real_escape_string($conn, $search);
+        $search = mysqli_real_escape_string($conn_office, $search);
 
         $queryData = "SELECT * FROM user 
                       WHERE no_ba LIKE '%$search%' 
                       ORDER BY id DESC";
 
-        $resultData = mysqli_query($conn, $queryData);
+        $resultData = mysqli_query($conn_office, $queryData);
     }
 }
 ?>

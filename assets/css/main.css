@@ -3155,4 +3155,7 @@ input[type="file"].pln-input {
     margin-bottom: 30px;
 }
 
-.chart-card
+.chart-container {
+  position: relative;
+  height: 300px;
+}
