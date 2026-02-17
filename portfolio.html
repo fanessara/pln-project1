@@ -18,6 +18,51 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+.dashboard-section {
+  padding: 60px 0;
+  background-color: #F5F7FA;
+}
+
+.section-title {
+  font-weight: 600;
+  color: #004AAD;
+  margin-bottom: 25px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  border-left: 5px solid #004AAD;
+}
+
+.kpi-title {
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+</style>
+
+
+
 </head>
 <body class="portfolio-page">
 
@@ -61,13 +106,75 @@
         </nav>
       </div>
     </div>
+    <section class="dashboard-section">
+  <div class="container">
 
-    
+    <!-- FILTER -->
+    <div class="chart-card mb-4">
+      <div class="row align-items-end">
+        <div class="col-md-3">
+          <label class="form-label">Tahun</label>
+          <select class="form-select">
+            <option>2026</option>
+            <option>2025</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Bulan</label>
+          <select class="form-select">
+            <option>Semua Bulan</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary w-100">Export PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI -->
+    <div class="row mb-4">
+      <div class="col-md-3 mb-3">
+        <div class="kpi-card">
+          <div class="kpi-title">Total IT Cost</div>
+          <div class="kpi-value">Rp 1.563.437.728</div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="kpi-card">
+          <div class="kpi-title">Office 365</div>
+          <div class="kpi-value">Rp 420.466.796</div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="kpi-card">
+          <div class="kpi-title">SIM APN</div>
+          <div class="kpi-value">Rp 792.970.932</div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="kpi-card">
+          <div class="kpi-title">Avg SLA</div>
+          <div class="kpi-value">99.21%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOTAL COST -->
+    <div class="chart-card mb-4">
+      <h5 class="section-title">Pergerakan Total Biaya IT</h5>
+      <canvas id="totalCostChart"></canvas>
+    </div>
+
+    <!-- BREAKDOWN -->
+    <div class="chart-card">
+      <h5 class="section-title">Breakdown Biaya Layanan</h5>
+      <canvas id="breakdownChart"></canvas>
+    </div>
+
+  </div>
+</section>
 
 
-      
-
-          
           
           
     </section>
@@ -149,6 +256,54 @@
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  new Chart(document.getElementById('totalCostChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+      datasets: [{
+        label: 'Total IT Cost (Juta)',
+        data: [120,130,125,140,150,160,155,170,165,180,175,190],
+        borderColor: '#004AAD',
+        backgroundColor: 'rgba(0,74,173,0.1)',
+        fill: true,
+        tension: 0.4
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('breakdownChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mei'],
+      datasets: [
+        {
+          label: 'Office 365',
+          data: [40,45,42,50,55],
+          backgroundColor: '#004AAD'
+        },
+        {
+          label: 'SIM APN',
+          data: [60,65,63,70,75],
+          backgroundColor: '#10B981'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true }
+      }
+    }
+  });
+
+});
+</script>
+
 
 <script src="assets/js/validasi.js"></script>
 <script>
