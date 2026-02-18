@@ -2,7 +2,7 @@
 
 <?php
 
-include "service/koneksi(card).php";
+include 'service/koneksi(card).php';
 
 session_start();
 
@@ -20,46 +20,60 @@ if (isset($_POST['submit'])) {
     $amr_telkomsel = $_POST['amr_telkomsel'];
     $scada_telkomsel = $_POST['scada_telkomsel'];
     $spklu_telkomsel = $_POST['spklu_telkomsel'];
+    $non_iot_telkomsel = $_POST['non_iot_telkomsel'];
     $total_telkomsel = $_POST['total_telkomsel'];
     $amr_xl = $_POST['amr_xl'];
     $scada_xl = $_POST['scada_xl'];
     $spklu_xl = $_POST['spklu_xl'];
+    $non_iot_xl = $_POST['non_iot_xl'];
     $total_xl = $_POST['total_xl'];
     $amr_indosat = $_POST['amr_indosat'];
     $scada_indosat = $_POST['scada_indosat'];
     $spklu_indosat = $_POST['spklu_indosat'];
+    $non_iot_indosat = $_POST['non_iot_indosat'];
     $total_indosat = $_POST['total_indosat'];
-    $nama_baru = $_POST['upload_ba'];
+    //$nama_baru = $_POST['upload_ba'];
 
     // ===============================
     // VALIDASI FILE
     // ===============================
 
-    if ($_FILES['upload_ba']['error'] == 0) {
+    if ($_FILES['upload_ba']['error'] === 0) {
 
         $nama_file = $_FILES['upload_ba']['name'];
-        $tmp = $_FILES['upload_ba']['tmp_name'];
-        $size = $_FILES['upload_ba']['size'];
+        $tmp       = $_FILES['upload_ba']['tmp_name'];
+        $size      = $_FILES['upload_ba']['size'];
 
         $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
 
-        // cek ekstensi
-        if ($ext != "pdf") {
-            die("File harus PDF");
+        // Cek ekstensi
+        if ($ext !== "pdf") {
+            die("File harus PDF!");
         }
 
-        // cek ukuran max 5MB
+        // Cek ukuran max 5MB
         if ($size > 5 * 1024 * 1024) {
-            die("Ukuran file maksimal 5MB");
+            die("Ukuran file maksimal 5MB!");
         }
 
-        // rename supaya tidak bentrok
-        $nama_baru = time() . "_" . $nama_file;
+        // Rename file
+        $nama_baru = uniqid() . ".pdf";
 
-        move_uploaded_file($tmp, "upload/" . $nama_baru);
+        // Path folder upload (lebih aman pakai __DIR__)
+        $folder = __DIR__ . "/upload/";
+
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        $upload_path = $folder . $nama_baru;
+
+        if (!move_uploaded_file($tmp, $upload_path)) {
+            die("Gagal upload file!");
+        }
 
     } else {
-        echo "<script>alert('File wajib diupload'); window.history.back();</script>";
+        echo "<script>alert('File wajib diupload!');window.history.back();</script>";
         exit();
     }
 
@@ -68,27 +82,31 @@ if (isset($_POST['submit'])) {
     // ===============================
 
     $query = "INSERT INTO data 
-        (periode_bulan, tahun, no_ba, tanggal_ba, amr_telkomsel, scada_telkomsel, spklu_telkomsel, total_telkomsel,amr_xl, scada_xl, spklu_xl, total_xl, amr_indosat, scada_indosat, spklu_indosat, total_indosat, upload_ba)
+        (periode_bulan, tahun, no_ba, tanggal_ba, amr_telkomsel, scada_telkomsel, spklu_telkomsel, non_iot_telkomsel, total_telkomsel,amr_xl, scada_xl, spklu_xl, non_iot_xl, total_xl, amr_indosat, scada_indosat, spklu_indosat, non_iot_indosat, total_indosat, upload_ba)
         VALUES 
-        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$amr_telkomsel', '$scada_telkomsel', '$spklu_telkomsel', '$total_telkomsel', '$amr_xl', '$scada_xl', '$spklu_xl', '$total_xl', '$amr_indosat', '$scada_indosat', '$spklu_indosat', '$total_indosat', '$nama_baru')";
+        ('$bulan', '$tahun', '$no_ba', '$tanggal', '$amr_telkomsel', '$scada_telkomsel', '$spklu_telkomsel', '$non_iot_telkomsel', '$total_telkomsel', '$amr_xl', '$scada_xl', '$spklu_xl', '$non_iot_xl', '$total_xl', '$amr_indosat', '$scada_indosat', '$spklu_indosat', '$non_iot_indosat', '$total_indosat', '$nama_baru')";
 
-    if (mysqli_query($conn, $query)) {
+if (mysqli_query($conn, $query)) {
 
-        header("Location: ".$_SERVER['PHP_SELF']."?success=1");
-        exit();
+    header("Location: ".$_SERVER['PHP_SELF']."?success=1");
+    exit();
 
-    } else {
+} else {
 
-    // Tidak redirect, tidak popup
-    // Bisa log error kalau mau
-    }
+    die("Query Error: " . mysqli_error($conn));
+}
+
 }
 
 // ===============================
 // PROSES SEARCH
 // ===============================
 
-$resultData = null;
+// ===============================
+// PROSES SEARCH + DEFAULT
+// ===============================
+
+$querySearch = "SELECT * FROM data WHERE 1=1";
 
 if (isset($_GET['cari'])) {
 
@@ -96,20 +114,25 @@ if (isset($_GET['cari'])) {
     $start   = $_GET['start'] ?? '';
     $end     = $_GET['end'] ?? '';
 
-    $querySearch = "SELECT * FROM data WHERE 1=1";
-
     if (!empty($keyword)) {
         $querySearch .= " AND no_ba LIKE '%$keyword%'";
     }
 
+    // ✅ filter tanggal fleksibel
     if (!empty($start) && !empty($end)) {
         $querySearch .= " AND tanggal_ba BETWEEN '$start' AND '$end'";
+    } elseif (!empty($start)) {
+        $querySearch .= " AND tanggal_ba >= '$start'";
+    } elseif (!empty($end)) {
+        $querySearch .= " AND tanggal_ba <= '$end'";
     }
-
-    $querySearch .= " ORDER BY id DESC";
-
-    $resultData = mysqli_query($conn, $querySearch);
 }
+
+// ✅ selalu ada order
+$querySearch .= " ORDER BY id DESC";
+
+// ✅ selalu ambil data
+$resultData = mysqli_query($conn, $querySearch);
 
 ?>
 
@@ -178,12 +201,13 @@ if (isset($_GET['cari'])) {
             <li>
               <a href="index.php">Beranda<br /></a>
             </li>
-             <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+           <li class="dropdown"><a href="#"><span>Input BA</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
-                  <li><a href="simcardapn.php" class="active">SimCard APN</a></li>
-                  <!-- <li><a href="#">Layanan Network</a></li> -->
+                  <li><a href="about.php">Layanan User Office 365</a></li>
+                  <li><a href="simcardapn.php">SimCard APN</a></li>
+                  <li><a href="services.php">Layanan PLN Icon+</a></li>
                 </ul>
-            <li><a href="services.php">Layanan PLN Icon+</a></li>
+           </li>
             <li><a href="portfolio.php">Statistik Laporan Icon+</a></li>
             <li><a href="logout.php">Logout</a></li>
           </ul>
@@ -245,7 +269,8 @@ if (isset($_GET['cari'])) {
 <div class="card laporan-card mt-4 shadow-sm border-0">
   <div class="card-body">
 
-<?php if(isset($_GET['cari']) && $resultData && mysqli_num_rows($resultData) > 0): ?>
+<?php if($resultData && mysqli_num_rows($resultData) > 0): ?>
+
 
 <div class="table-responsive">
 <table class="table table-bordered table-hover align-middle text-center">
@@ -261,16 +286,19 @@ if (isset($_GET['cari'])) {
   <th>AMR Tsel</th>
   <th>SCADA Tsel</th>
   <th>SPKLU Tsel</th>
+  <th>NON IOT/NON SCADA Tsel</th>
   <th>Total Tsel</th>
 
   <th>AMR XL</th>
   <th>SCADA XL</th>
   <th>SPKLU XL</th>
+  <th>NON IOT/NON SCADA XL</th>
   <th>Total XL</th>
 
   <th>AMR Indosat</th>
   <th>SCADA Indosat</th>
   <th>SPKLU Indosat</th>
+  <th>NON IOT/NON SCADA Indosat</th>
   <th>Total Indosat</th>
 
   <th>File BA</th>
@@ -292,16 +320,19 @@ if (isset($_GET['cari'])) {
 <td><?= $row['amr_telkomsel']; ?></td>
 <td><?= $row['scada_telkomsel']; ?></td>
 <td><?= $row['spklu_telkomsel']; ?></td>
+<td><?= $row['non_iot_telkomsel']; ?></td>
 <td>Rp <?= number_format($row['total_telkomsel']); ?></td>
 
 <td><?= $row['amr_xl']; ?></td>
 <td><?= $row['scada_xl']; ?></td>
 <td><?= $row['spklu_xl']; ?></td>
+<td><?= $row['non_iot_xl']; ?></td>
 <td>Rp <?= number_format($row['total_xl']); ?></td>
 
 <td><?= $row['amr_indosat']; ?></td>
 <td><?= $row['scada_indosat']; ?></td>
 <td><?= $row['spklu_indosat']; ?></td>
+<td><?= $row['non_iot_indosat']; ?></td>
 <td>Rp <?= number_format($row['total_indosat']); ?></td>
 
 <td>
@@ -327,13 +358,11 @@ if (isset($_GET['cari'])) {
 </div>
 
 <?php else: ?>
-
 <div class="text-center py-4">
-  <h5 class="text-muted">Belum ada pencarian</h5>
-  <p>Silakan cari berdasarkan nomor BA atau tanggal</p>
+  <h5 class="text-danger">Data tidak ditemukan</h5>
 </div>
-
 <?php endif; ?>
+
 
   </div>
 </div>
@@ -342,7 +371,6 @@ if (isset($_GET['cari'])) {
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content border-0 rounded-4">
 
-      
       <div class="modal-header px-4 py-3">
         <div>
           <h5 class="modal-title fw-semibold mb-0">
@@ -356,184 +384,133 @@ if (isset($_GET['cari'])) {
       </div>
 
       
-      <div class="modal-body px-4">
+<div class="modal-body px-4">
+  <form method="POST" enctype="multipart/form-data">
 
-        <form method="POST" enctype="multipart/form-data">
-        <div class="row g-3 mb-4">
-          <div class="col-md-3">
-            <label class="form-label pln-label">Periode Bulan</label>
-            <select class="form-select pln-input" name="periode_bulan">
-              <option selected disabled>Pilih bulan</option>
-              <option value="Januari">Januari</option>
-              <option value="Februari">Februari</option>
-              <option value="Maret">Maret</option>
-              <option value="April">April</option>
-              <option value="Mei">Mei</option>
-              <option value="Juni">Juni</option>
-              <option value="Juli">Juli</option>
-              <option value="Agustus">Agustus</option>
-              <option value="September">September</option>
-              <option value="Oktober">Oktober</option>
-              <option value="November">November</option>
-              <option value="Desember">Desember</option>
-            </select>
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label pln-label">Tahun</label>
-            <input type="number" class="form-control pln-input" value="2026" name="tahun">
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label pln-label">Nomor BA</label>
-            <input type="text" class="form-control pln-input"
-                   placeholder="Nomor Berita Acara" name="no_ba">
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label pln-label">Tanggal BA</label>
-            <input type="date" class="form-control pln-input" name="tanggal_ba">
-          </div>
-        </div>
-
-        <!-- Divider -->
-       <div class="provider-section">
-  <div class="provider-title">
-    TELKOMSEL
-  </div>
-</div>
-
-
-        
-        <div class="row g-3 mb-4">
-          <div class="col-md-3">
-            <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input" name="amr_telkomsel">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input"  name="scada_telkomsel">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input" name="spklu_telkomsel">
-          </div>
-          
-        </div>
-        <div class="row g-3 mt-2">
-  <div class="col-md-6">
-    <label class="form-label pln-label">Total Tagihan</label>
-    <div class="input-group">
-      <span class="input-group-text">Rp</span>
-      <input type="text"
-             class="form-control pln-input text-end"
-             placeholder="0"
-             inputmode="numeric"
-             name="total_telkomsel">
-    </div>
-  </div>
-
-        <!-- Divider -->
-        <div class="provider-section">
-  <div class="provider-title">
-    XL
-  </div>
-</div>
-
-
-        <div class="row g-3 mb-4">
-          <div class="col-md-3">
-            <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input" name="amr_xl">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input" name="scada_xl">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input" name="spklu_xl">
-          </div>
-          
-        </div>
-        <div class="row g-3 mt-2">
-  <div class="col-md-6">
-    <label class="form-label pln-label">Total Tagihan</label>
-    <div class="input-group">
-      <span class="input-group-text">Rp</span>
-      <input type="text"
-             class="form-control pln-input text-end"
-             placeholder="0"
-             inputmode="numeric"
-             name="total_xl">
-    </div>
-  </div>
-
-        
-        <div class="provider-section">
-  <div class="provider-title">
-    INDOSAT
-  </div>
-</div>
-
-
-        <div class="row g-3">
-          <div class="col-md-3">
-            <label class="form-label pln-label">AMR</label>
-            <input type="number" class="form-control pln-input" name="amr_indosat">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SCADA</label>
-            <input type="number" class="form-control pln-input" name="scada_indosat">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label pln-label">SPKLU</label>
-            <input type="number" class="form-control pln-input"
-            name="spklu_indosat">
-          </div>
-          
-        </div>
-
-      </div>
-      <div class="row g-3 mt-2">
-  <div class="col-md-6">
-    <label class="form-label pln-label">Total Tagihan</label>
-    <div class="input-group">
-      <span class="input-group-text">Rp</span>
-      <input type="text"
-             class="form-control pln-input text-end"
-             placeholder="0"
-             inputmode="numeric"
-             name="total_indosat">
-    </div>
-  </div>
-
-   <div class="col-12 text-center">
-              <label class="upload-box">
-                <input type="file" hidden accept=".pdf" name="upload_ba">
-                <i class="bi bi-upload"></i>
-                <div>Upload BA (PDF)</div>
-                <small>Maks. 5MB</small>
-              </label>
-            </div>
-
-  </div>
-
-
-    
-      <div class="modal-footer px-4 py-3">
-        <button class="btn btn-light" data-bs-dismiss="modal">
-          Batal
-        </button>
-        <button type="submit" class="btn btn-primary px-4" name="submit">
-          Simpan Laporan
-        </button>
+    <!-- ================= HEADER ================= -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <label class="form-label pln-label">Periode Bulan</label>
+        <select class="form-select pln-input" name="periode_bulan">
+          <option selected disabled>Pilih bulan</option>
+          <option>Januari</option>
+          <option>Februari</option>
+          <option>Maret</option>
+          <option>April</option>
+          <option>Mei</option>
+          <option>Juni</option>
+          <option>Juli</option>
+          <option>Agustus</option>
+          <option>September</option>
+          <option>Oktober</option>
+          <option>November</option>
+          <option>Desember</option>
+        </select>
       </div>
 
+      <div class="col-md-3">
+        <label class="form-label pln-label">Tahun</label>
+        <input type="number" class="form-control pln-input" value="2026" name="tahun">
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label pln-label">Nomor BA</label>
+        <input type="text" class="form-control pln-input" name="no_ba">
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label pln-label">Tanggal BA</label>
+        <input type="date" class="form-control pln-input" name="tanggal_ba">
+      </div>
     </div>
-  </div>
+
+    <!-- ================= TELKOMSEL ================= -->
+    <div class="provider-section">
+      <div class="provider-title">TELKOMSEL</div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="AMR" name="amr_telkomsel"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SCADA" name="scada_telkomsel"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SPKLU" name="spklu_telkomsel"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="Non IoT" name="non_iot_telkomsel"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label pln-label">Total Tagihan</label>
+        <div class="input-group">
+          <span class="input-group-text">Rp</span>
+          <input type="text" class="form-control pln-input text-end" name="total_telkomsel">
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= XL ================= -->
+    <div class="provider-section">
+      <div class="provider-title">XL</div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="AMR" name="amr_xl"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SCADA" name="scada_xl"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SPKLU" name="spklu_xl"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="Non IoT" name="non_iot_xl"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label pln-label">Total Tagihan</label>
+        <div class="input-group">
+          <span class="input-group-text">Rp</span>
+          <input type="text" class="form-control pln-input text-end" name="total_xl">
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= INDOSAT ================= -->
+    <div class="provider-section">
+      <div class="provider-title">INDOSAT</div>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="AMR" name="amr_indosat"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SCADA" name="scada_indosat"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="SPKLU" name="spklu_indosat"></div>
+      <div class="col-md-3"><input type="number" class="form-control pln-input" placeholder="Non IoT" name="non_iot_indosat"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label pln-label">Total Tagihan</label>
+        <div class="input-group">
+          <span class="input-group-text">Rp</span>
+          <input type="text" class="form-control pln-input text-end" name="total_indosat">
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div class="col-12 text-center mb-3">
+      <label class="upload-box">
+        <input type="file" hidden accept=".pdf" name="upload_ba">
+        <i class="bi bi-upload"></i>
+        <div>Upload BA (PDF)</div>
+        <small>Maks. 5MB</small>
+      </label>
+    </div>
+
 </div>
+
+<div class="modal-footer px-4 py-3">
+  <button class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+  <button type="submit" class="btn btn-primary px-4" name="submit">
+    Simpan Laporan
+  </button>
+</div>
+
 </form>
+
 
     </main>
 

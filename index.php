@@ -89,13 +89,13 @@ if (isset($_POST['login'])) {
               <a href="index.php" class="active">Beranda<br /></a>
             </li>
             <?php if (isset($_SESSION['login'])): ?>
-              <li class="dropdown"><a href="about.php"><span>Layanan User Office 365</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+            <li class="dropdown"><a href="#"><span>Input BA</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
                 <ul>
-                  <li><a href="about.php">User Office 365</a></li>
+                  <li><a href="about.php">Layanan User Office 365</a></li>
                   <li><a href="simcardapn.php">SimCard APN</a></li>
-                  <li><a href="layanannetwork.php">Layanan Network</a></li>
+                  <li><a href="services.php">Layanan PLN Icon+</a></li>
                 </ul>
-            <li><a href="services.php">Layanan PLN Icon+</a></li>
+            </li>
             <li><a href="portfolio.php">Statistik Laporan Icon+</a></li>
             <li><a href="logout.php">Logout</a></li>
             <?php endif; ?>

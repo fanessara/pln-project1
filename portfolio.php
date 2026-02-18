@@ -170,8 +170,13 @@ foreach ($bulan as $b) {
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.php">Beranda<br></a></li>
-          <li><a href="about.php">Layanan User Office 365</a></li>
-          <li><a href="services.php">Layanan PLN Icon+</a></li>
+           <li class="dropdown"><a href="#"><span>Input BA</span> <i class="bi bi-chevron-down toogle-dropdown"></i></a>
+                <ul>
+                  <li><a href="about.php">Layanan User Office 365</a></li>
+                  <li><a href="simcardapn.php">SimCard APN</a></li>
+                  <li><a href="services.php">Layanan PLN Icon+</a></li>
+                </ul>
+           </li>
           <li><a href="portfolio.php" class="active">Statistik Laporan Icon+</a></li>
           <li><a href="logout.php">Logout</a></li>
         </ul>
